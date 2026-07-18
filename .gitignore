@@ -61,3 +61,6 @@ coverage/
 # =====================
 *.ngsummary.json
 *.ngfactory.ts
+
+# lock files depend on package manager choice
+package-lock.json
