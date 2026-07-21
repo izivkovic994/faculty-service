@@ -8,4 +8,4 @@ import { MatListModule } from '@angular/material/list';
   templateUrl: './sidenav.html',
   styleUrl: './sidenav.scss',
 })
-export class Sidenav {}
+export class SidenavComponent {}

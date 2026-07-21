@@ -3,13 +3,13 @@ import { RouterOutlet } from '@angular/router';
 
 import { MatSidenavModule } from '@angular/material/sidenav';
 
-import { Toolbar } from '../../shared/ui/toolbar/toolbar';
-import { Sidenav } from '../../shared/ui/sidenav/sidenav';
+import { ToolbarComponent } from '../../shared/ui/toolbar/toolbar';
+import { SidenavComponent } from '../../shared/ui/sidenav/sidenav';
 
 @Component({
   selector: 'app-main-layout',
-  imports: [RouterOutlet, MatSidenavModule, Sidenav, Toolbar],
+  imports: [RouterOutlet, MatSidenavModule, SidenavComponent, ToolbarComponent],
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.scss',
 })
-export class MainLayout {}
+export class MainLayoutComponent {}
