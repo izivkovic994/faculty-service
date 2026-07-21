@@ -1,0 +1,14 @@
+.layout-container {
+    height: 100vh;
+}
+
+.layout-sidenav {
+    width: 260px;
+}
+
+.layout-content {
+    padding: 24px;
+    height: calc(100vh - 64px);
+    overflow: auto;
+    background: var(--mat-sys-surface);
+}
