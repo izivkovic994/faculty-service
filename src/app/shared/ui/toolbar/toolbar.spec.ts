@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AppSidenav } from './app-sidenav';
+import { Toolbar } from './toolbar';
 
-describe('AppSidenav', () => {
-  let component: AppSidenav;
-  let fixture: ComponentFixture<AppSidenav>;
+describe('Toolbar', () => {
+  let component: Toolbar;
+  let fixture: ComponentFixture<Toolbar>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppSidenav],
+      imports: [Toolbar],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(AppSidenav);
+    fixture = TestBed.createComponent(Toolbar);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
