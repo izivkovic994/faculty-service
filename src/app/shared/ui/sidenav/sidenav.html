@@ -1,15 +1,11 @@
 <mat-nav-list>
-  <a mat-list-item routerLink="/home"> Home </a>
+  @for (item of navigationItems; track item.route) {
 
-  <a mat-list-item routerLink="/news"> News </a>
+  <a mat-list-item [routerLink]="item.route" routerLinkActive="active-link">
+    <mat-icon matListItemIcon> {{ item.icon }} </mat-icon>
 
-  <a mat-list-item routerLink="/exam-registration"> Exam Registration </a>
+    <span matListItemTitle> {{ item.label }} </span>
+  </a>
 
-  <a mat-list-item routerLink="/my-exams"> My Exams </a>
-
-  <a mat-list-item routerLink="/financials"> Financials </a>
-
-  <a mat-list-item routerLink="/support"> Support </a>
-
-  <a mat-list-item routerLink="/administration"> Administration </a>
+  }
 </mat-nav-list>
