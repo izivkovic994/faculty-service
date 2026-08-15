@@ -1,0 +1,55 @@
+<div class="login-container">
+  <mat-card class="login-card">
+    <div class="login-header">
+      <mat-icon class="logo">school</mat-icon>
+
+      <h1>Faculty Service</h1>
+
+      <p>Single Reservation Centre</p>
+    </div>
+
+    <form (ngSubmit)="login()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+
+        <input matInput type="email" [formControl]="emailCtrl" />
+
+        <mat-icon matSuffix>mail</mat-icon>
+
+        @if(emailCtrl.hasError('required')){
+        <mat-error>Email is required.</mat-error>
+        } @if(emailCtrl.hasError('email')){
+        <mat-error>Invalid email address.</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Password</mat-label>
+
+        <input matInput type="password" [formControl]="passwordCtrl" />
+
+        <mat-icon matSuffix>lock</mat-icon>
+
+        @if(passwordCtrl.hasError('required')){
+        <mat-error>Password is required.</mat-error>
+        }
+      </mat-form-field>
+
+      <button
+        mat-flat-button
+        color="primary"
+        class="login-button"
+        type="submit"
+        (click)="login()"
+        [disabled]="emailCtrl.invalid || passwordCtrl.invalid"
+      >
+        Sign In
+      </button>
+    </form>
+
+    <div class="login-footer">
+      <span>Faculty Service Portal</span>
+      <small>© 2026 University</small>
+    </div>
+  </mat-card>
+</div>
