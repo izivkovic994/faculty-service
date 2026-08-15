@@ -16,9 +16,9 @@
 
         <mat-icon matSuffix>mail</mat-icon>
 
-        @if(emailCtrl.hasError('required')){
+        @if (emailCtrl.hasError('required')) {
         <mat-error>Email is required.</mat-error>
-        } @if(emailCtrl.hasError('email')){
+        } @if (emailCtrl.hasError('email')) {
         <mat-error>Invalid email address.</mat-error>
         }
       </mat-form-field>
@@ -30,7 +30,7 @@
 
         <mat-icon matSuffix>lock</mat-icon>
 
-        @if(passwordCtrl.hasError('required')){
+        @if (passwordCtrl.hasError('required')) {
         <mat-error>Password is required.</mat-error>
         }
       </mat-form-field>
@@ -40,7 +40,6 @@
         color="primary"
         class="login-button"
         type="submit"
-        (click)="login()"
         [disabled]="emailCtrl.invalid || passwordCtrl.invalid"
       >
         Sign In
