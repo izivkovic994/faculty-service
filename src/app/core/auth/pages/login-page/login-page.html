@@ -35,16 +35,32 @@
         }
       </mat-form-field>
 
+      @if (loginError()) {
+      <div class="login-error">{{ loginError() }}</div>
+      }
+
       <button
         mat-flat-button
         color="primary"
         class="login-button"
         type="submit"
-        [disabled]="emailCtrl.invalid || passwordCtrl.invalid"
+        [disabled]="emailCtrl.invalid || passwordCtrl.invalid || isSubmitting()"
       >
-        Sign In
+        {{ isSubmitting() ? 'Signing in...' : 'Sign In' }}
       </button>
     </form>
+
+    <div class="demo-credentials">
+      <h3>Demo accounts</h3>
+
+      <ul>
+        @for (user of demoUsers; track user.email) {
+        <li><strong>{{ user.role }}</strong> · {{ user.email }}</li>
+        }
+      </ul>
+
+      <small>Shared password: {{ demoPassword }}</small>
+    </div>
 
     <div class="login-footer">
       <span>Faculty Service Portal</span>

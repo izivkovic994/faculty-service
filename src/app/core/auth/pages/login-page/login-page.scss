@@ -68,6 +68,47 @@
     margin-top: .5rem;
 }
 
+.login-error {
+    margin: 0 0 1rem;
+    padding: .75rem 1rem;
+
+    border-radius: 12px;
+    background: rgba(211, 47, 47, 0.08);
+    color: #b00020;
+    font-size: 0.875rem;
+}
+
+.demo-credentials {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    color: #555;
+}
+
+.demo-credentials h3 {
+    margin: 0 0 .75rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.demo-credentials ul {
+    margin: 0;
+    padding-left: 1.25rem;
+}
+
+.demo-credentials li+li {
+    margin-top: .35rem;
+}
+
+.demo-credentials small {
+    display: block;
+    margin-top: .75rem;
+    color: #666;
+}
+
 .login-footer {
     margin-top: 2rem;
 

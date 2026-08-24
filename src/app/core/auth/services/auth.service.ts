@@ -1,38 +1,45 @@
-import { Injectable, computed, signal } from '@angular/core';
+import { Injectable, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { inject } from '@angular/core';
 
-import { User, UserRole } from '../../auth/models/user.model';
+import { AUTH_MOCK_USERS, DEMO_PASSWORD } from '../mocks/auth.mock';
+import { User } from '../models/user.model';
+import { MockAuthRepository } from './auth.repository-mocked';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private router = inject(Router);
+  private readonly router = inject(Router);
+  private readonly authRepository = inject(MockAuthRepository);
 
-  private readonly currentUserSignal = signal<User | null>(null);
-
-  readonly currentUser = this.currentUserSignal.asReadonly();
-
+  readonly currentUser = this.authRepository.currentUser.asReadonly();
   readonly isAuthenticated = computed(() => this.currentUser() !== null);
+  readonly isLoading = signal(false);
+  readonly errorMessage = signal<string | null>(null);
+  readonly demoUsers = AUTH_MOCK_USERS;
 
-  login(email: string, password: string): void {
-    const mockedUser: User = {
-      id: 1,
-      firstName: 'Ivan',
-      lastName: 'Živković',
-      email,
-      role: UserRole.ADMIN,
-    };
+  login(email: string, password: string): boolean {
+    this.isLoading.set(true);
+    this.errorMessage.set(null);
 
-    this.currentUserSignal.set(mockedUser);
+    const authenticatedUser = this.authRepository.login(email, password);
 
+    if (!authenticatedUser) {
+      this.isLoading.set(false);
+      this.errorMessage.set(
+        `Invalid credentials. Use one of the demo accounts below or the shared password: ${DEMO_PASSWORD}`,
+      );
+      return false;
+    }
+
+    this.isLoading.set(false);
     this.router.navigate(['/home']);
+    return true;
   }
 
   logout(): void {
-    this.currentUserSignal.set(null);
-
+    this.authRepository.logout();
+    this.errorMessage.set(null);
     this.router.navigate(['/login']);
   }
 }
