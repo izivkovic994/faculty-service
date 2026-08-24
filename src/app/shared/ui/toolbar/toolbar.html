@@ -16,11 +16,22 @@
   </button>
 
   <mat-menu #accountMenu="matMenu">
+    <ng-container *ngIf="currentUser() as user">
+      <button mat-menu-item disabled>
+        <mat-icon>person</mat-icon>
+        <div class="user-info">
+          <div class="name">{{ user.displayName }}</div>
+          <div class="email">{{ user.email }}</div>
+        </div>
+      </button>
+      <mat-divider></mat-divider>
+    </ng-container>
+
     <button mat-menu-item (click)="openProfile()">
       <mat-icon>person</mat-icon>
       <span>Profile</span>
     </button>
-    <button mat-menu-item (click)="logout()">
+    <button mat-menu-item (click)="confirmLogout()">
       <mat-icon>logout</mat-icon>
       <span>Logout</span>
     </button>

@@ -25,6 +25,11 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/pages/home-page/home-page').then((m) => m.HomePageComponent),
       },
+      {
+        path: 'profile',
+        loadComponent: () =>
+          import('./core/auth/pages/profile-page/profile-page').then((m) => m.ProfilePageComponent),
+      },
     ],
   },
   {
