@@ -1,6 +1,6 @@
 <div class="login-container">
-  <app-loading-spinner *ngIf="isSubmitting"></app-loading-spinner>
-  <mat-card *ngIf="!isSubmitting" class="login-card">
+  <app-loading-spinner *ngIf="isSubmitting()"></app-loading-spinner>
+  <mat-card *ngIf="!isSubmitting()" class="login-card">
     <div class="login-header">
       <mat-icon class="logo">school</mat-icon>
       <h1>Faculty Service</h1>
@@ -42,7 +42,7 @@
         color="primary"
         class="login-button"
         type="submit"
-        [disabled]="emailCtrl.invalid || passwordCtrl.invalid || isSubmitting"
+        [disabled]="emailCtrl.invalid || passwordCtrl.invalid || isSubmitting()"
       >
         Sign In
       </button>

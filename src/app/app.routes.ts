@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { MainLayoutComponent } from './layout/main-layout/main-layout';
+import { HomePageComponent } from './features/pages/home-page/home-page';
 import { authGuard } from './core/auth/guards/auth.guard';
 import { guestGuard } from './core/auth/guards/guest.guard';
 
@@ -22,8 +23,7 @@ export const routes: Routes = [
       },
       {
         path: 'home',
-        loadComponent: () =>
-          import('./features/pages/home-page/home-page').then((m) => m.HomePageComponent),
+        component: HomePageComponent,
       },
       {
         path: 'profile',

@@ -18,23 +18,22 @@ export class AuthService {
   readonly errorMessage = signal<string | null>(null);
   readonly demoUsers = AUTH_MOCK_USERS;
 
-  login(email: string, password: string): boolean {
+  login(email: string, password: string): void {
     this.isLoading.set(true);
     this.errorMessage.set(null);
 
     const authenticatedUser = this.authRepository.login(email, password);
-
     if (!authenticatedUser) {
       this.isLoading.set(false);
       this.errorMessage.set(
         `Invalid credentials. Use sone of the demo accounts below or the shared password: ${DEMO_PASSWORD}`,
       );
-      return false;
+      return;
     }
-
-    this.isLoading.set(false);
-    this.router.navigate(['/home']);
-    return true;
+    setTimeout(() => {
+      this.isLoading.set(false);
+      this.router.navigate(['/home']);
+    }, 2000);
   }
 
   logout(): void {

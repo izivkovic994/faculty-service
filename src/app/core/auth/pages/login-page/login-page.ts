@@ -30,7 +30,7 @@ import { LoadingSpinner } from '../../../../shared/ui/loading-spinner/loading-sp
 export class LoginPageComponent {
   private readonly authService = inject(AuthService);
 
-  isSubmitting = false;
+  isSubmitting = this.authService.isLoading;
   readonly loginError = this.authService.errorMessage;
   readonly demoUsers = this.authService.demoUsers;
   readonly demoPassword = DEMO_PASSWORD;
@@ -45,13 +45,9 @@ export class LoginPageComponent {
   });
 
   login(): void {
-    this.isSubmitting = true;
-    setTimeout(() => {
-      this.authService.login(this.emailCtrl.value, this.passwordCtrl.value);
-      if (this.emailCtrl.invalid || this.passwordCtrl.invalid) {
-        return;
-      }
-      this.isSubmitting = false;
-    }, 3000);
+    this.authService.login(this.emailCtrl.value, this.passwordCtrl.value);
+    if (this.emailCtrl.invalid || this.passwordCtrl.invalid) {
+      return;
+    }
   }
 }

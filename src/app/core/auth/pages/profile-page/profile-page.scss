@@ -1,2 +1,102 @@
-.field { margin-bottom: 12px; }
-.readonly { padding: 8px 0; }
+.settings-container {
+    max-width: auto;
+    margin: 0 auto;
+    padding: 1rem 0.5rem;
+
+    .settings-header {
+        margin-bottom: 2rem;
+
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 500;
+            margin: 0 0 0.25rem 0;
+        }
+
+        .subtitle {
+            color: var(--sys-on-surface-variant, #666);
+            margin: 0;
+            font-size: 0.95rem;
+        }
+    }
+
+    .settings-list {
+        padding: 0;
+
+        .settings-item {
+            display: flex;
+            align-items: center;
+            padding: 1.25rem 0;
+            gap: 1.5rem;
+
+            .item-icon {
+                color: var(--sys-on-surface-variant, #666);
+                font-size: 24px;
+            }
+
+            .item-info {
+                display: flex;
+                flex-direction: column;
+                flex: 1;
+
+                .item-title {
+                    font-weight: 500;
+                    font-size: 1rem;
+                    color: var(--sys-on-surface, #202124);
+                }
+
+                .item-description {
+                    font-size: 0.85rem;
+                    color: var(--sys-on-surface-variant, #5f6368);
+                    margin-top: 0.2rem;
+                }
+            }
+
+            .item-control {
+                min-width: 260px;
+                display: flex;
+                justify-content: flex-end;
+                margin-right: 3rem;
+
+                mat-form-field {
+                    width: 100%;
+                }
+            }
+        }
+    }
+
+    .settings-actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 2rem;
+        padding-top: 1rem;
+    }
+}
+
+/* Responsive collapse for small screens */
+@media (max-width: 600px) {
+    .settings-container .settings-list .settings-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+
+        .item-control {
+            width: 100%;
+            min-width: unset;
+        }
+    }
+}
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--sys-on-surface-variant, #666);
+    margin-top: 4rem;
+
+    mat-icon {
+        font-size: 48px;
+        width: 48px;
+        height: 48px;
+    }
+}
