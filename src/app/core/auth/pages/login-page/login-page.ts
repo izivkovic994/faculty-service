@@ -5,14 +5,18 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { CommonModule } from '@angular/common';
 
 import { DEMO_PASSWORD } from '../../mocks/auth.mock';
 import { AuthService } from '../../services/auth.service';
+import { LoadingSpinner } from '../../../../shared/ui/loading-spinner/loading-spinner';
 
 @Component({
   selector: 'app-login-page',
   imports: [
     FormsModule,
+    LoadingSpinner,
+    CommonModule,
     ReactiveFormsModule,
     MatCardModule,
     MatFormFieldModule,
@@ -26,7 +30,7 @@ import { AuthService } from '../../services/auth.service';
 export class LoginPageComponent {
   private readonly authService = inject(AuthService);
 
-  readonly isSubmitting = this.authService.isLoading;
+  isSubmitting = false;
   readonly loginError = this.authService.errorMessage;
   readonly demoUsers = this.authService.demoUsers;
   readonly demoPassword = DEMO_PASSWORD;
@@ -41,10 +45,13 @@ export class LoginPageComponent {
   });
 
   login(): void {
-    if (this.emailCtrl.invalid || this.passwordCtrl.invalid) {
-      return;
-    }
-
-    this.authService.login(this.emailCtrl.value, this.passwordCtrl.value);
+    this.isSubmitting = true;
+    setTimeout(() => {
+      this.authService.login(this.emailCtrl.value, this.passwordCtrl.value);
+      if (this.emailCtrl.invalid || this.passwordCtrl.invalid) {
+        return;
+      }
+      this.isSubmitting = false;
+    }, 3000);
   }
 }

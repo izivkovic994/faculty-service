@@ -27,7 +27,7 @@ export class AuthService {
     if (!authenticatedUser) {
       this.isLoading.set(false);
       this.errorMessage.set(
-        `Invalid credentials. Use one of the demo accounts below or the shared password: ${DEMO_PASSWORD}`,
+        `Invalid credentials. Use sone of the demo accounts below or the shared password: ${DEMO_PASSWORD}`,
       );
       return false;
     }

@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDialog } from '@angular/material/dialog';
 
 import { MockAuthRepository } from '../../services/auth.repository-mocked';
-import { ConfirmDialogComponent } from '../../../../shared/ui/confirm-dialog';
+import { ConfirmDialogComponent } from '../../../../shared/ui/confirm-dialog/confirm-dialog';
 import { DEMO_PASSWORD } from '../../mocks/auth.mock';
 
 @Component({

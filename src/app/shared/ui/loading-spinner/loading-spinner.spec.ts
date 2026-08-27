@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MainLayoutComponent } from './main-layout';
+import { LoadingSpinner } from './loading-spinner';
 
-describe('MainLayout', () => {
-  let component: MainLayoutComponent;
-  let fixture: ComponentFixture<MainLayoutComponent>;
+describe('LoadingSpinner', () => {
+  let component: LoadingSpinner;
+  let fixture: ComponentFixture<LoadingSpinner>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MainLayoutComponent],
+      imports: [LoadingSpinner],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(MainLayoutComponent);
+    fixture = TestBed.createComponent(LoadingSpinner);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

@@ -11,11 +11,19 @@ import { Router } from '@angular/router';
 
 import { APP_NAME } from '../../../core/constants/app.constants';
 import { AuthService } from '../../../core/auth/services/auth.service';
-import { ConfirmDialogComponent } from '../../ui/confirm-dialog';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog';
 
 @Component({
   selector: 'app-toolbar',
-  imports: [CommonModule, MatToolbarModule, MatButtonModule, MatIconModule, MatMenuModule, MatDialogModule, MatDividerModule],
+  imports: [
+    CommonModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
+    MatMenuModule,
+    MatDialogModule,
+    MatDividerModule,
+  ],
   templateUrl: './toolbar.html',
   styleUrl: './toolbar.scss',
 })
