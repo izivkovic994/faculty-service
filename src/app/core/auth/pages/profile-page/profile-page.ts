@@ -54,7 +54,7 @@ export class ProfilePageComponent {
 
   cancelChanges(): void {
     const user = this.currentUser();
-    this.displayNameCtrl.setValue(user?.displayName ?? '');
+    this.displayNameCtrl.reset(user?.displayName ?? '');
   }
 
   resetPassword(): void {
