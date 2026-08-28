@@ -52,6 +52,11 @@ export class ProfilePageComponent {
     localStorage.setItem('faculty-service-current-user', JSON.stringify(updated));
   }
 
+  cancelChanges(): void {
+    const user = this.currentUser();
+    this.displayNameCtrl.setValue(user?.displayName ?? '');
+  }
+
   resetPassword(): void {
     const ref = this.dialog.open(ConfirmDialogComponent, {
       data: {
