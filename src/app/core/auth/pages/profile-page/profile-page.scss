@@ -68,12 +68,11 @@
         display: flex;
         justify-content: flex-end;
         gap: 0.75rem;
-        margin-top: 2rem;
-        padding-top: 1rem;
+        padding-top: 3rem;
+        padding-right: 1rem;
     }
 }
 
-/* Responsive collapse for small screens */
 @media (max-width: 600px) {
     .settings-container .settings-list .settings-item {
         flex-direction: column;

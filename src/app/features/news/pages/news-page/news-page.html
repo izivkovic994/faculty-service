@@ -1,0 +1,57 @@
+<section class="news-page">
+  <header class="news-header">
+    <div>
+      <span class="eyebrow">Faculty board</span>
+      <h1>News</h1>
+      <p>Stay up to date with announcements, events, and academic notices.</p>
+    </div>
+  </header>
+
+  <div class="news-grid">
+    @for (article of news(); track article.id) {
+      <mat-card
+        class="news-card"
+        [class.news-card--featured]="article.isPinned"
+        [class]="'category-' + article.category.toLowerCase()"
+      >
+        <mat-card-header>
+          <div mat-card-avatar class="category-icon">
+            <mat-icon>{{ article.isPinned ? 'push_pin' : 'article' }}</mat-icon>
+          </div>
+          <mat-card-title>{{ article.title }}</mat-card-title>
+          <mat-card-subtitle>
+            {{ article.category }} · {{ article.publishedAt | date: 'MMM d, y' }}
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p class="news-summary">{{ article.summary }}</p>
+          @if (article.isPinned) {
+            <p class="news-content">{{ article.content }}</p>
+          }
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button type="button">
+            Read more <mat-icon>arrow_forward</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    } @empty {
+      <div class="empty-news">
+        <mat-icon>feed</mat-icon>
+        <p>No news has been published yet.</p>
+      </div>
+    }
+  </div>
+
+  @if (canCreateNews()) {
+    <a
+      class="create-news-button"
+      mat-fab
+      color="primary"
+      routerLink="/news/create"
+      aria-label="Create news"
+    >
+      <mat-icon>add</mat-icon>
+    </a>
+  }
+</section>

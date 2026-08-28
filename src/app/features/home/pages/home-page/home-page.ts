@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
-import { APP_NAME } from '../../../core/constants/app.constants';
-import { MockAuthRepository } from '../../../core/auth/services/auth.repository-mocked';
+import { APP_NAME } from '../../../../core/constants/app.constants';
+import { MockAuthRepository } from '../../../../core/auth/services/auth.repository-mocked';
 
 @Component({
   selector: 'app-home-page',
