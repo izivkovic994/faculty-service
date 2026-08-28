@@ -25,6 +25,14 @@ export const AUTH_MOCK_USERS: User[] = [
     email: 'student@faculty.test',
     role: UserRole.STUDENT,
   },
+  {
+    id: 4,
+    firstName: 'Ana',
+    lastName: 'Jurić',
+    displayName: 'Ana Jurić',
+    email: 'math.professor@faculty.test',
+    role: UserRole.PROFESSOR,
+  },
 ];
 
 export const DEMO_PASSWORD = 'Password123!';

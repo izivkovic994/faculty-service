@@ -4,7 +4,6 @@ mat-toolbar {
     position: sticky;
     top: 0;
     z-index: 100;
-    border-bottom: 1px solid rgba(0, 0, 0, .08);
 }
 
 .title {
@@ -28,5 +27,5 @@ mat-toolbar {
 .logo {
     width: 50px;
     height: 50px;
-    margin-right: 1rem;
+    margin: 0.5rem;
 }

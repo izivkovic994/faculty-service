@@ -66,6 +66,14 @@
     <!-- Bottom Action Bar -->
     <footer class="settings-actions">
       <button
+        mat-button
+        type="button"
+        [disabled]="profileForm.pristine"
+        (click)="cancelChanges()"
+      >
+        Cancel Changes
+      </button>
+      <button
         mat-flat-button
         type="submit"
         color="primary"

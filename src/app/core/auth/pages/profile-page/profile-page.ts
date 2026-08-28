@@ -77,6 +77,17 @@ export class ProfilePageComponent {
     });
   }
 
+  cancelChanges(): void {
+    const user = this.currentUser();
+    if (!user) return;
+
+    this.profileForm.reset({
+      displayName: user.displayName,
+      email: user.email,
+    });
+    this.profileForm.markAsPristine();
+  }
+
   resetPassword(): void {
     const ref = this.dialog.open(ConfirmDialogComponent, {
       data: {
