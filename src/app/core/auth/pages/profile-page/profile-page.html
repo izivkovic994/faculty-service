@@ -1,19 +1,31 @@
-<mat-card *ngIf="currentUser() as user">
-  <mat-card-title>Profile</mat-card-title>
+<div class="settings-container">
+  @if (currentUser(); as user) {
+  <!-- Page Header -->
+  <header class="settings-header">
+    <h1>Account Settings</h1>
+    <p class="subtitle">Manage your personal details and account security</p>
+  </header>
 
-  <mat-card-content>
-    <div class="field">
-      <label>Display name</label>
-      <mat-form-field appearance="outline">
-        <input matInput [formControl]="displayNameCtrl" />
-      </mat-form-field>
-    </div>
+  <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
+    <mat-action-list class="settings-list">
+      <!-- Setting Row: Display Name -->
+      <div class="settings-item">
+        <mat-icon matListItemIcon class="item-icon">badge</mat-icon>
+        <div class="item-info">
+          <span class="item-title">Display Name</span>
+          <span class="item-description">Visible to other users across the application</span>
+        </div>
+        <div class="item-control">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <input matInput formControlName="displayName" placeholder="Jane Doe" />
+            @if (profileForm.controls.displayName.hasError('required')) {
+            <mat-error>Required</mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </div>
 
-    <div class="field">
-      <label>Email</label>
-      <div class="readonly">{{ user.email }}</div>
-    </div>
-  </mat-card-content>
+      <mat-divider></mat-divider>
 
   <mat-card-actions>
     <button mat-stroked-button type="button" (click)="cancelChanges()">Cancel changes</button>
@@ -22,6 +34,40 @@
   </mat-card-actions>
 </mat-card>
 
-<div *ngIf="!currentUser()">
-  <p>No user is currently signed in.</p>
+      <mat-divider></mat-divider>
+
+      <!-- Setting Row: Security / Password -->
+      <div class="settings-item">
+        <mat-icon matListItemIcon class="item-icon">lock_reset</mat-icon>
+        <div class="item-info">
+          <span class="item-title">Password</span>
+          <span class="item-description">Request a password reset link for your account</span>
+        </div>
+        <div class="item-control">
+          <button mat-stroked-button type="button" color="warn" (click)="resetPassword()">
+            Reset Password
+          </button>
+        </div>
+      </div>
+    </mat-action-list>
+
+    <!-- Bottom Action Bar -->
+    <footer class="settings-actions">
+      <button
+        mat-flat-button
+        type="submit"
+        color="primary"
+        [disabled]="profileForm.invalid || profileForm.pristine"
+      >
+        <mat-icon>save</mat-icon>
+        Save Changes
+      </button>
+    </footer>
+  </form>
+  } @else {
+  <div class="empty-state">
+    <mat-icon>account_circle</mat-icon>
+    <p>No user is currently signed in.</p>
+  </div>
+  }
 </div>

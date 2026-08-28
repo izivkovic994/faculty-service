@@ -15,7 +15,7 @@
     <mat-icon> account_circle </mat-icon>
   </button>
 
-  <mat-menu #accountMenu="matMenu">
+  <mat-menu #accountMenu="matMenu" class="account-menu">
     <ng-container *ngIf="currentUser() as user">
       <button mat-menu-item disabled>
         <mat-icon>person</mat-icon>
