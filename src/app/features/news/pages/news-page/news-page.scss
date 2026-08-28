@@ -1,6 +1,6 @@
 .news-page {
   position: relative;
-  padding: 1rem 0.5rem 5rem;
+  padding: 1rem 1.5rem 5rem;
 }
 
 .news-header {
@@ -43,10 +43,21 @@ h1 {
   grid-row: span 2;
 }
 
-.category-general { border-top-color: #c9d8f2; }
-.category-academic { border-top-color: #c9e5d2; }
-.category-event { border-top-color: #f4d6b8; }
-.category-important { border-top-color: #edc7cf; }
+.category-general {
+  border-top-color: #c9d8f2;
+}
+
+.category-academic {
+  border-top-color: #c9e5d2;
+}
+
+.category-event {
+  border-top-color: #f4d6b8;
+}
+
+.category-important {
+  border-top-color: #edc7cf;
+}
 
 .category-icon {
   align-items: center;

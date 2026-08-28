@@ -50,9 +50,15 @@ export class CreateNewsPageComponent {
       return;
     }
 
-    this.newsService.createNews({
-      ...this.newsForm.getRawValue(),
-      authorUserId: user.id,
-    }).subscribe(() => this.router.navigate(['/news']));
+    this.newsService
+      .createNews({
+        ...this.newsForm.getRawValue(),
+        authorUserId: user.id,
+      })
+      .subscribe(() => this.router.navigate(['/news']));
+  }
+
+  cancel(): void {
+    this.router.navigate(['/news']);
   }
 }

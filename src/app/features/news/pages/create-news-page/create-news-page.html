@@ -10,7 +10,7 @@
       <mat-label>Title</mat-label>
       <input matInput formControlName="title" />
       @if (newsForm.controls.title.hasError('required')) {
-        <mat-error>Title is required</mat-error>
+      <mat-error>Title is required</mat-error>
       }
     </mat-form-field>
 
@@ -18,7 +18,7 @@
       <mat-label>Summary</mat-label>
       <input matInput formControlName="summary" />
       @if (newsForm.controls.summary.hasError('required')) {
-        <mat-error>Summary is required</mat-error>
+      <mat-error>Summary is required</mat-error>
       }
     </mat-form-field>
 
@@ -26,7 +26,7 @@
       <mat-label>Category</mat-label>
       <mat-select formControlName="category">
         @for (category of categories; track category) {
-          <mat-option [value]="category">{{ category }}</mat-option>
+        <mat-option [value]="category">{{ category }}</mat-option>
         }
       </mat-select>
     </mat-form-field>
@@ -35,14 +35,14 @@
       <mat-label>Content</mat-label>
       <textarea matInput rows="7" formControlName="content"></textarea>
       @if (newsForm.controls.content.hasError('required')) {
-        <mat-error>Content is required</mat-error>
+      <mat-error>Content is required</mat-error>
       }
     </mat-form-field>
 
     <mat-checkbox formControlName="isPinned">Pin as a featured announcement</mat-checkbox>
 
     <div class="form-actions">
-      <button mat-button type="button" routerLink="/news">Cancel</button>
+      <button mat-button type="button" (click)="cancel()">Cancel</button>
       <button mat-flat-button color="primary" type="submit">Publish news</button>
     </div>
   </form>
