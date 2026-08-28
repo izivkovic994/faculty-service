@@ -2,8 +2,8 @@
   <app-loading-spinner *ngIf="isSubmitting()"></app-loading-spinner>
   <mat-card *ngIf="!isSubmitting()" class="login-card">
     <div class="login-header">
-      <mat-icon class="logo">school</mat-icon>
-      <h1>Faculty Service</h1>
+      <img src="faculty.png" alt="Faculty Service Logo" class="logo" />
+      <h1>Student Service</h1>
     </div>
 
     <form (ngSubmit)="login()">
