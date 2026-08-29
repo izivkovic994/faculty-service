@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
-import { FACULTY_MOCK_DATA } from '../../../mocks/faculty.mock';
+import { FACULTY_MOCK_DATA } from '../../../core/mocks/faculty.mock';
 import { NewsArticle, NewsCategory } from '../../../models/faculty.model';
 
 export interface CreateNewsInput {

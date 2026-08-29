@@ -4,5 +4,15 @@
 }
 
 .sidenav-list {
-    margin: 0.5rem;
+    margin: 1rem;
+}
+
+.sidenav-list a[mat-list-item] {
+    margin-bottom: 0.5rem;
+    border-radius: 8px;
+}
+
+.active-link {
+    background-color: #2a3341;
+    border-radius: 8px;
 }

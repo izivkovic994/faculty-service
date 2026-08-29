@@ -1,13 +1,15 @@
 <app-toolbar />
-
 <mat-sidenav-container class="layout-container">
   <mat-sidenav mode="side" opened class="layout-sidenav">
     <app-sidenav />
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <main class="layout-content">
-      <router-outlet />
-    </main>
+    <div class="layout-stage">
+      <main class="layout-content">
+        <router-outlet />
+      </main>
+      <app-page-footer />
+    </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

@@ -1,6 +1,5 @@
 <div class="settings-container">
   @if (currentUser(); as user) {
-  <!-- Page Header -->
   <header class="settings-header">
     <h1>Account Settings</h1>
     <p class="subtitle">Manage your personal details and account security</p>
@@ -8,7 +7,6 @@
 
   <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
     <mat-action-list class="settings-list">
-      <!-- Setting Row: Display Name -->
       <div class="settings-item">
         <mat-icon matListItemIcon class="item-icon">badge</mat-icon>
         <div class="item-info">
@@ -27,7 +25,6 @@
 
       <mat-divider></mat-divider>
 
-      <!-- Setting Row: Email -->
       <div class="settings-item">
         <mat-icon matListItemIcon class="item-icon">email</mat-icon>
         <div class="item-info">
@@ -48,7 +45,6 @@
 
       <mat-divider></mat-divider>
 
-      <!-- Setting Row: Security / Password -->
       <div class="settings-item">
         <mat-icon matListItemIcon class="item-icon">lock_reset</mat-icon>
         <div class="item-info">
@@ -65,21 +61,6 @@
       <mat-divider></mat-divider>
     </mat-action-list>
 
-    <!-- Bottom Action Bar -->
-    <footer class="settings-actions">
-      <button mat-button type="button" [disabled]="profileForm.pristine" (click)="cancelChanges()">
-        Cancel Changes
-      </button>
-      <button
-        mat-flat-button
-        type="submit"
-        color="primary"
-        [disabled]="profileForm.invalid || profileForm.pristine"
-      >
-        <mat-icon>save</mat-icon>
-        Save Changes
-      </button>
-    </footer>
   </form>
   } @else {
   <div class="empty-state">

@@ -1,0 +1,76 @@
+@if (actions().length) {
+  <footer class="page-footer">
+    @for (action of actions(); track action.label ?? action.icon ?? $index) {
+      @switch (action.variant) {
+        @case ('flat') {
+          <button
+            [type]="action.type || 'button'"
+            [color]="action.color || 'primary'"
+            [disabled]="action.disabled"
+            [attr.aria-label]="action.ariaLabel || action.label"
+            mat-flat-button
+            [routerLink]="action.routerLink"
+            (click)="handleAction(action)"
+          >
+            @if (action.icon) {
+              <mat-icon>{{ action.icon }}</mat-icon>
+            }
+            @if (action.label) {
+              <span>{{ action.label }}</span>
+            }
+          </button>
+        }
+        @case ('stroked') {
+          <button
+            [type]="action.type || 'button'"
+            [color]="action.color || 'primary'"
+            [disabled]="action.disabled"
+            [attr.aria-label]="action.ariaLabel || action.label"
+            mat-stroked-button
+            [routerLink]="action.routerLink"
+            (click)="handleAction(action)"
+          >
+            @if (action.icon) {
+              <mat-icon>{{ action.icon }}</mat-icon>
+            }
+            @if (action.label) {
+              <span>{{ action.label }}</span>
+            }
+          </button>
+        }
+        @case ('fab') {
+          <button
+            [type]="action.type || 'button'"
+            [color]="action.color || 'primary'"
+            [disabled]="action.disabled"
+            [attr.aria-label]="action.ariaLabel || action.label"
+            mat-fab
+            [routerLink]="action.routerLink"
+            (click)="handleAction(action)"
+            class="page-footer__fab"
+          >
+            <mat-icon>{{ action.icon || 'add' }}</mat-icon>
+          </button>
+        }
+        @default {
+          <button
+            [type]="action.type || 'button'"
+            [color]="action.color || 'primary'"
+            [disabled]="action.disabled"
+            [attr.aria-label]="action.ariaLabel || action.label"
+            mat-button
+            [routerLink]="action.routerLink"
+            (click)="handleAction(action)"
+          >
+            @if (action.icon) {
+              <mat-icon>{{ action.icon }}</mat-icon>
+            }
+            @if (action.label) {
+              <span>{{ action.label }}</span>
+            }
+          </button>
+        }
+      }
+    }
+  </footer>
+}

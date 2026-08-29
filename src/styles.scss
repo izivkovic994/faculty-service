@@ -5,6 +5,14 @@
 // custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
 
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; // Prevents horizontal jitter
+}
+
 html {
   height: 100%;
   @include mat.theme((color: (primary: mat.$azure-palette,

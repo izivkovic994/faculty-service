@@ -1,5 +1,17 @@
+:host {
+    display: block;
+    height: 100%;
+}
+
 .layout-container {
-    height: 100vh;
+    height: calc(100vh - 64px);
+}
+
+mat-sidenav-content {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    background: var(--mat-sys-surface);
 }
 
 .layout-sidenav {
@@ -9,11 +21,30 @@
     left: 5px;
 }
 
+.layout-stage {
+    width: min(100%, 1680px);
+    max-width: calc(100vw - 320px);
+    height: calc(100vh - 96px);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    background: var(--mat-sys-surface);
+    border-radius: 0;
+}
+
 .layout-content {
+    flex: 1 1 auto;
+    min-height: 0;
     padding-left: 12px;
-    height: calc(100vh - 64px);
     overflow: auto;
     background: var(--mat-sys-surface);
+}
+
+app-page-footer {
+    flex-shrink: 0;
+    display: block;
+    width: 100%;
+    z-index: 10;
 }
 
 .logo {
