@@ -44,6 +44,14 @@ export const routes: Routes = [
             (m) => m.CreateNewsPageComponent,
           ),
       },
+      {
+        path: 'news/edit/:id',
+        canActivate: [adminGuard],
+        loadComponent: () =>
+          import('./features/news/pages/create-news-page/create-news-page').then(
+            (m) => m.CreateNewsPageComponent,
+          ),
+      },
     ],
   },
   {

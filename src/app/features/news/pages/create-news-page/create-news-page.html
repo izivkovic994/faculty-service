@@ -1,10 +1,10 @@
 <section class="create-news-page">
   <header>
-    <h1>Create news</h1>
-    <p>Publish an announcement for students and faculty.</p>
+    <h1>{{ isEditMode ? 'Edit news' : 'Create news' }}</h1>
+    <p>{{ isEditMode ? 'Update the selected announcement.' : 'Publish an announcement for students and faculty.' }}</p>
   </header>
 
-  <form class="news-form" [formGroup]="newsForm" (ngSubmit)="createNews()">
+  <form class="news-form" [formGroup]="newsForm" (ngSubmit)="saveNews()">
     <mat-form-field appearance="outline">
       <mat-label>Title</mat-label>
       <input matInput formControlName="title" />

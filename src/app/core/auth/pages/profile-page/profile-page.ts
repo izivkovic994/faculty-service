@@ -10,7 +10,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { MockAuthRepository } from '../../services/auth.repository-mocked';
 import { ConfirmDialogComponent } from '../../../../shared/ui/confirm-dialog/confirm-dialog';
-import { PageFooterAction, PageFooterService } from '../../../../shared/ui/page-footer/page-footer.service';
+import {
+  PageFooterAction,
+  PageFooterService,
+} from '../../../../shared/ui/page-footer/page-footer.service';
 import { DEMO_PASSWORD } from '../../mocks/auth.mock';
 
 @Component({
@@ -74,7 +77,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
         label: 'Cancel',
         variant: 'button',
         type: 'button',
-        disabled: this.profileForm.pristine,
+        routerLink: ['/home'],
         onClick: () => this.cancelChanges(),
       },
       {
@@ -107,7 +110,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
 
     this.snackBar.open('Profile settings saved successfully!', 'Close', {
       duration: 2000,
-      horizontalPosition: 'end',
+      horizontalPosition: 'center',
       verticalPosition: 'bottom',
       panelClass: ['success-snackbar'],
     });

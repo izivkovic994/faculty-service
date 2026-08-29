@@ -1,6 +1,6 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -30,6 +30,7 @@ export class CreateNewsPageComponent implements OnInit, OnDestroy {
   private readonly authService = inject(AuthService);
   private readonly newsService = inject(NewsService);
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
   private readonly pageFooterService = inject(PageFooterService);
 
   protected readonly categories: NewsCategory[] = ['GENERAL', 'ACADEMIC', 'EVENT', 'IMPORTANT'];
@@ -41,7 +42,30 @@ export class CreateNewsPageComponent implements OnInit, OnDestroy {
     isPinned: new FormControl(false, { nonNullable: true }),
   });
 
+  protected isEditMode = false;
+  private editNewsId: number | null = null;
+
   ngOnInit(): void {
+    const idParam = this.route.snapshot.paramMap.get('id');
+    this.editNewsId = idParam ? Number(idParam) : null;
+    this.isEditMode = this.editNewsId !== null && !Number.isNaN(this.editNewsId);
+
+    if (this.isEditMode) {
+      const existingNews = this.newsService.getArticleById(this.editNewsId!);
+      if (!existingNews) {
+        this.router.navigate(['/news']);
+        return;
+      }
+
+      this.newsForm.patchValue({
+        title: existingNews.title,
+        summary: existingNews.summary,
+        content: existingNews.content,
+        category: existingNews.category,
+        isPinned: existingNews.isPinned,
+      });
+    }
+
     this.updateFooterActions();
     this.newsForm.statusChanges.subscribe(() => this.updateFooterActions());
   }
@@ -67,18 +91,18 @@ export class CreateNewsPageComponent implements OnInit, OnDestroy {
         onClick: () => this.cancel(),
       },
       {
-        label: 'Save',
+        label: this.isEditMode ? 'Save changes' : 'Save',
         variant: 'flat',
         type: 'button',
         color: 'primary',
         icon: 'save',
         disabled: this.newsForm.invalid,
-        onClick: () => this.createNews(),
+        onClick: () => this.saveNews(),
       },
     ];
   }
 
-  createNews(): void {
+  saveNews(): void {
     if (this.newsForm.invalid) {
       this.newsForm.markAllAsTouched();
       return;
@@ -89,12 +113,16 @@ export class CreateNewsPageComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.newsService
-      .createNews({
-        ...this.newsForm.getRawValue(),
-        authorUserId: user.id,
-      })
-      .subscribe(() => this.router.navigate(['/news']));
+    const payload = {
+      ...this.newsForm.getRawValue(),
+      authorUserId: user.id,
+    };
+
+    const request$ = this.isEditMode && this.editNewsId !== null
+      ? this.newsService.updateNews(this.editNewsId, payload)
+      : this.newsService.createNews(payload);
+
+    request$.subscribe(() => this.router.navigate(['/news']));
   }
 
   cancel(): void {

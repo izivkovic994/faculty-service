@@ -13,6 +13,8 @@ export interface CreateNewsInput {
   authorUserId: number;
 }
 
+export type UpdateNewsInput = CreateNewsInput;
+
 @Injectable({
   providedIn: 'root',
 })
@@ -30,5 +32,30 @@ export class MockNewsRepository {
 
     FACULTY_MOCK_DATA.news.push(article);
     return of(article);
+  }
+
+  updateNews(id: number, input: UpdateNewsInput): Observable<NewsArticle | null> {
+    const articleIndex = FACULTY_MOCK_DATA.news.findIndex((item) => item.id === id);
+    if (articleIndex === -1) {
+      return of(null);
+    }
+
+    const updatedArticle: NewsArticle = {
+      ...FACULTY_MOCK_DATA.news[articleIndex],
+      ...input,
+    };
+
+    FACULTY_MOCK_DATA.news[articleIndex] = updatedArticle;
+    return of(updatedArticle);
+  }
+
+  deleteNews(id: number): Observable<boolean> {
+    const articleIndex = FACULTY_MOCK_DATA.news.findIndex((item) => item.id === id);
+    if (articleIndex === -1) {
+      return of(false);
+    }
+
+    FACULTY_MOCK_DATA.news.splice(articleIndex, 1);
+    return of(true);
   }
 }
