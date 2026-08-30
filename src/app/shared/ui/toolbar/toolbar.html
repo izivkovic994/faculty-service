@@ -23,11 +23,7 @@
     }
   </button>
 
-  <mat-menu
-    #notificationsMenu="matMenu"
-    class="notifications-menu"
-    (closed)="markNotificationsAsRead()"
-  >
+  <mat-menu #notificationsMenu="matMenu" class="notifications-menu">
     <div class="notifications-panel">
       <div class="notifications-header">
         <h3>Important updates</h3>

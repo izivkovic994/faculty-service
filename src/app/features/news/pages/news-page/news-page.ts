@@ -148,7 +148,16 @@ export class NewsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   private scrollToExpandedCard(articleId: number): void {
     setTimeout(() => {
       const element = document.getElementById(`news-card-${articleId}`);
-      element?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      if (!element) {
+        return;
+      }
+
+      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      element.classList.add('highlight');
+      setTimeout(() => {
+        element.classList.remove('highlight');
+      }, 2000);
     }, 150);
   }
 }

@@ -183,3 +183,33 @@ mat-card-actions button {
   --mdc-fab-icon-color: #002d6c;
   --mat-fab-icon-color: #002d6c;
 }
+
+@keyframes highlightFlicker {
+  0% {
+    background-color: #1a1b1f;
+    box-shadow: 0 0 0 0 #1a1b1f;
+  }
+
+  /* Quick, punchy flash (20% through duration) */
+  20% {
+    /* ~40% opacity of #2a3341 for a clearly noticeable pulse */
+    background-color: color-mix(in srgb, #2a3341 50%, #1a1b1f);
+    box-shadow: 0 0 16px color-mix(in srgb, #2a3341 40%, #1a1b1f);
+  }
+
+  /* Sustained hold before gentle decay starts */
+  45% {
+    background-color: color-mix(in srgb, #2a3341 30%, #1a1b1f);
+  }
+
+  /* Slow, smooth ease back to normal */
+  100% {
+    background-color: #1a1b1f;
+    box-shadow: 0 0 0 0 #1a1b1f;
+  }
+}
+
+.news-card.highlight {
+  /* Fast start to draw the eye, long gentle ease-out tail */
+  animation: highlightFlicker 2s cubic-bezier(0.16, 1, 0.3, 1);
+}
