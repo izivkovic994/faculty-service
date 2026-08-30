@@ -96,13 +96,14 @@ export class NewsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     ];
   }
 
-  protected toggleExpanded(articleId: number): void {
-    if (this.expandedNewsIds.has(articleId)) {
-      this.expandedNewsIds.delete(articleId);
+  protected toggleExpanded(article: NewsArticle): void {
+    if (this.expandedNewsIds.has(article.id)) {
+      this.expandedNewsIds.delete(article.id);
       return;
     }
-
-    this.expandedNewsIds.add(articleId);
+    if (this.shouldShowReadMore(article)) {
+      this.expandedNewsIds.add(article.id);
+    }
   }
 
   protected isExpanded(articleId: number): boolean {
@@ -135,12 +136,12 @@ export class NewsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   protected shouldShowReadMore(article: NewsArticle): boolean {
-    const bodyText = (article.summary + ' ' + article.content).trim();
+    const bodyText = article.content.trim();
     return bodyText.length > 120;
   }
 
   protected getPreviewText(article: NewsArticle): string {
-    const bodyText = (article.summary + ' ' + article.content).trim();
+    const bodyText = article.content.trim();
     return bodyText.length <= 100 ? bodyText : `${bodyText.slice(0, 100).trimEnd()}...`;
   }
 

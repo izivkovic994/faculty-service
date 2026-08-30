@@ -11,9 +11,11 @@
     "isolatedModules": true,
     "experimentalDecorators": true,
     "importHelpers": true,
+    "ignoreDeprecations": "6.0",
     "target": "ES2022",
     "module": "preserve"
   },
+  "exclude": ["node_modules"],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,

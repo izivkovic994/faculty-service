@@ -15,41 +15,44 @@
     [matMenuTriggerFor]="notificationsMenu"
     aria-label="Notifications"
     class="notification-button"
-    (mouseenter)="markNotificationsAsRead()"
     (click)="onNotificationsMenuOpen()"
   >
     <mat-icon>notifications</mat-icon>
     @if (unreadNotifications() > 0) {
-      <span class="notification-badge">{{ unreadNotifications() }}</span>
+    <span class="notification-badge">{{ unreadNotifications() }}</span>
     }
   </button>
 
-  <button mat-icon-button [matMenuTriggerFor]="accountMenu" aria-label="Account menu">
-    <mat-icon> account_circle </mat-icon>
-  </button>
-
-  <mat-menu #notificationsMenu="matMenu" class="notifications-menu" (closed)="markNotificationsAsRead()">
+  <mat-menu
+    #notificationsMenu="matMenu"
+    class="notifications-menu"
+    (closed)="markNotificationsAsRead()"
+  >
     <div class="notifications-panel">
       <div class="notifications-header">
         <h3>Important updates</h3>
       </div>
 
       @if (importantNews().length === 0) {
-        <div class="notifications-empty">
-          <span>No important news right now.</span>
-        </div>
+      <div class="notifications-empty">
+        <span>No important news right now.</span>
+      </div>
       } @else {
-        <div class="notifications-list">
-          @for (article of importantNews(); track article.id) {
-            <button class="notification-card" type="button" (click)="openNewsNotification(article)">
-              <span class="notification-card__title">{{ article.title }}</span>
-              <span class="notification-card__summary">{{ article.summary }}</span>
-            </button>
-          }
-        </div>
+      <div class="notifications-list">
+        @for (article of importantNews(); track article.id) {
+        <button class="notification-card" type="button" (click)="openNewsNotification(article)">
+          <span class="notification-card__title">{{ article.title }}</span>
+          <span class="notification-card__summary">{{ article.summary }}</span>
+        </button>
+        }
+      </div>
       }
     </div>
   </mat-menu>
+
+  <button mat-icon-button [matMenuTriggerFor]="accountMenu" aria-label="Account menu">
+    <mat-icon> account_circle </mat-icon>
+  </button>
 
   <mat-menu #accountMenu="matMenu" class="account-menu">
     <ng-container *ngIf="currentUser() as user">

@@ -14,11 +14,11 @@
       [class.news-card--featured]="article.isPinned"
       [class.is-expanded]="isExpanded(article.id)"
       [class]="'category-' + article.category.toLowerCase()"
-      (click)="toggleExpanded(article.id)"
+      (click)="toggleExpanded(article)"
       tabindex="0"
       role="button"
-      (keydown.enter)="toggleExpanded(article.id)"
-      (keydown.space)="toggleExpanded(article.id); $event.preventDefault()"
+      (keydown.enter)="toggleExpanded(article)"
+      (keydown.space)="toggleExpanded(article); $event.preventDefault()"
     >
       <mat-card-header>
         <div mat-card-avatar class="category-icon">
@@ -42,11 +42,19 @@
           </button>
 
           <mat-menu #newsMenu="matMenu">
-            <button mat-menu-item type="button" (click)="editNews(article); $event.stopPropagation()">
+            <button
+              mat-menu-item
+              type="button"
+              (click)="editNews(article); $event.stopPropagation()"
+            >
               <mat-icon>edit</mat-icon>
               <span>Edit</span>
             </button>
-            <button mat-menu-item type="button" (click)="deleteNews(article); $event.stopPropagation()">
+            <button
+              mat-menu-item
+              type="button"
+              (click)="deleteNews(article); $event.stopPropagation()"
+            >
               <mat-icon>delete</mat-icon>
               <span>Delete</span>
             </button>
@@ -61,14 +69,19 @@
         <div class="news-preview-wrapper">
           <div class="news-preview-inner">
             <p class="news-preview">
-              @if (isExpanded(article.id)) { {{ article.content }} } @else { {{ getPreviewText(article) }} }
+              @if (isExpanded(article.id)) { {{ article.content }} } @else { {{
+              getPreviewText(article) }} }
             </p>
           </div>
         </div>
       </mat-card-content>
       @if (shouldShowReadMore(article)) {
       <mat-card-actions>
-        <button mat-button type="button" (click)="$event.stopPropagation(); toggleExpanded(article.id)">
+        <button
+          mat-button
+          type="button"
+          (click)="$event.stopPropagation(); toggleExpanded(article)"
+        >
           {{ isExpanded(article.id) ? 'Show less' : 'Read more' }}
           <mat-icon>{{ isExpanded(article.id) ? 'expand_less' : 'arrow_forward' }}</mat-icon>
         </button>

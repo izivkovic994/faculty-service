@@ -9,7 +9,13 @@ import { ToolbarComponent } from '../../shared/ui/toolbar/toolbar';
 
 @Component({
   selector: 'app-main-layout',
-  imports: [RouterOutlet, MatSidenavModule, SidenavComponent, ToolbarComponent, PageFooterComponent],
+  imports: [
+    RouterOutlet,
+    MatSidenavModule,
+    SidenavComponent,
+    ToolbarComponent,
+    PageFooterComponent,
+  ],
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.scss',
 })
