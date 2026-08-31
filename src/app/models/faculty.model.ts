@@ -131,7 +131,6 @@ export interface AdministrationRequest {
 }
 
 export interface FacultyMockData {
-  users: User[];
   departments: Department[];
   studyPrograms: StudyProgram[];
   courses: Course[];

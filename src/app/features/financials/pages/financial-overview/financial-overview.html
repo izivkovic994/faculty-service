@@ -1,0 +1,122 @@
+<section class="financial-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Student portal</p>
+      <h1>Financial overview</h1>
+    </div>
+
+    <div class="student-pill">
+      <span class="student-pill__dot"></span>
+      Student #{{ student()?.studentNumber }}
+    </div>
+  </header>
+
+  <div class="metrics-grid">
+    <article class="metric-card metric-card--balance" [ngClass]="balanceState()">
+      <span class="metric-label">Current balance owed</span>
+      <strong class="metric-value">{{ formatCurrency(balance().currentOwed) }}</strong>
+      <span class="metric-meta">{{ getBalanceLabel(nextDue()) }}</span>
+    </article>
+
+    <article class="metric-card">
+      <span class="metric-label">Total tuition billed</span>
+      <strong class="metric-value">{{ formatCurrency(balance().totalBilled) }}</strong>
+      <span class="metric-meta">€1,200 / 60 ECTS</span>
+    </article>
+
+    <article class="metric-card">
+      <span class="metric-label">Total amount paid</span>
+      <strong class="metric-value">{{ formatCurrency(balance().totalPaid) }}</strong>
+      <span class="metric-meta">{{ paidProgress() | number: '1.1-1' }}% of annual tuition</span>
+    </article>
+
+    <article class="metric-card">
+      <span class="metric-label">Next due date & amount</span>
+      <strong class="metric-value"
+        >{{ nextDue()?.dueDate ? formatDate(nextDue()?.dueDate) : '—' }}</strong
+      >
+      <span class="metric-meta">{{ formatCurrency(nextDue()?.amount ?? 0) }} on the 12th</span>
+    </article>
+  </div>
+
+  <section class="card progress-card">
+    <div class="section-header">
+      <h2>Tuition payment progress</h2>
+      <span>{{ installmentsPaid() }}/12 installments paid</span>
+    </div>
+
+    <div class="progress-summary">
+      <strong>{{ paidProgress() | number: '1.1-1' }}%</strong>
+      <span
+        >{{ formatCurrency(balance().totalPaid) }} paid of {{ formatCurrency(balance().totalBilled)
+        }}</span
+      >
+    </div>
+
+    <div class="progress-bar" role="progressbar" aria-label="Tuition payment progress">
+      <span class="progress-bar__fill" [style.width.%]="paidProgress()"></span>
+    </div>
+  </section>
+
+  <section class="card installment-card">
+    <div class="section-header">
+      <h2>12-month installment tracker</h2>
+      <span>{{ installmentsPaid() }}/12</span>
+    </div>
+
+    <div class="installment-grid">
+      <article class="installment-item" *ngFor="let installment of paymentPlan()">
+        <div class="installment-item__top">
+          <span class="installment-item__number"
+            >Installment {{ installment.installmentNumber }}</span
+          >
+          <span [ngClass]="getStatusClass(installment.status)">{{ installment.status }}</span>
+        </div>
+
+        <div class="installment-item__meta">
+          <span>Due {{ formatDate(installment.dueDate) }}</span>
+          <span>{{ formatCurrency(installment.amount) }}</span>
+        </div>
+
+        <div class="installment-item__payment-date">
+          {{ installment.paidAt ? 'Paid ' + formatDate(installment.paidAt) : 'Awaiting payment' }}
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="card ledger-card">
+    <div class="section-header">
+      <h2>Transaction ledger</h2>
+      <span>{{ (transactions$ | async)?.length ?? 0 }} records</span>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let transaction of transactions$ | async">
+            <td>#{{ transaction.id }}</td>
+            <td>{{ formatDate(transaction.dueDate) }}</td>
+            <td>{{ transaction.description }}</td>
+            <td>
+              <span [ngClass]="getTypeClass(transaction.type)">{{ transaction.type }}</span>
+            </td>
+            <td class="amount-cell" [class.amount-cell--payment]="transaction.type === 'PAYMENT'">
+              {{ transaction.type === 'PAYMENT' ? '-' : '' }}{{ formatCurrency(transaction.amount)
+              }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</section>

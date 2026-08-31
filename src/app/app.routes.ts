@@ -27,6 +27,13 @@ export const routes: Routes = [
         component: HomePageComponent,
       },
       {
+        path: 'financials',
+        loadComponent: () =>
+          import('./features/financials/pages/financial-overview/financial-overview').then(
+            (m) => m.FinancialOverviewComponent,
+          ),
+      },
+      {
         path: 'profile',
         loadComponent: () =>
           import('./core/auth/pages/profile-page/profile-page').then((m) => m.ProfilePageComponent),

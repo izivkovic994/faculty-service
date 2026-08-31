@@ -1,0 +1,326 @@
+:host {
+  display: block;
+}
+
+.financial-page {
+  --financial-surface: rgba(18, 20, 24, 0.9);
+  --financial-surface-soft: rgba(27, 31, 38, 0.78);
+  --financial-surface-strong: rgba(10, 14, 20, 0.96);
+  --financial-border: rgba(162, 177, 198, 0.16);
+  --financial-text: #edf3ff;
+  --financial-text-soft: #b8c4d7;
+  --financial-success: #25b26b;
+  --financial-warning: #f7a93b;
+  --financial-danger: #e75d55;
+  --financial-info: #6caaf8;
+  --financial-muted: #94a6bb;
+  --financial-shadow: 0 18px 48px rgba(7, 12, 20, 0.34);
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1rem 1.5rem 5rem;
+  color: var(--financial-text);
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.35rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.72rem;
+  color: var(--financial-text-soft);
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(2rem, 2.8vw, 2.75rem);
+  font-weight: 600;
+}
+
+.student-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+  background: rgba(138, 164, 218, 0.12);
+  border: 1px solid rgba(138, 164, 218, 0.22);
+  color: var(--financial-text);
+  font-weight: 600;
+}
+
+.student-pill__dot {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #9bd1ff, #62b0ff);
+  box-shadow: 0 0 12px rgba(98, 176, 255, 0.9);
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.metric-card,
+.card {
+  background: linear-gradient(180deg, rgba(25, 31, 39, 0.92), rgba(13, 18, 24, 0.96));
+  border: 1px solid var(--financial-border);
+  border-radius: 1.15rem;
+  box-shadow: var(--financial-shadow);
+}
+
+.metric-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1.2rem 1.25rem;
+  min-height: 150px;
+}
+
+.metric-card--balance {
+  border-color: rgba(231, 93, 85, 0.28);
+}
+
+.metric-card--balance.success {
+  border-color: rgba(37, 178, 107, 0.35);
+  background: linear-gradient(180deg, rgba(19, 42, 31, 0.9), rgba(12, 18, 20, 0.96));
+}
+
+.metric-card--balance.warning {
+  border-color: rgba(247, 169, 59, 0.32);
+  background: linear-gradient(180deg, rgba(54, 42, 16, 0.9), rgba(12, 18, 20, 0.96));
+}
+
+.metric-card--balance.danger {
+  border-color: rgba(231, 93, 85, 0.34);
+  background: linear-gradient(180deg, rgba(56, 21, 21, 0.9), rgba(12, 18, 20, 0.96));
+}
+
+.metric-label,
+.section-header span,
+.metric-meta {
+  color: var(--financial-text-soft);
+}
+
+.metric-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.metric-value {
+  font-size: clamp(1.55rem, 2vw, 2.2rem);
+  line-height: 1.2;
+}
+
+.metric-meta {
+  margin-top: auto;
+  font-size: 0.9rem;
+}
+
+.card {
+  padding: 1.25rem 1.3rem;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.section-header h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.progress-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+  color: var(--financial-text-soft);
+}
+
+.progress-summary strong {
+  color: var(--financial-text);
+  font-size: 1.2rem;
+}
+
+.progress-bar {
+  position: relative;
+  overflow: hidden;
+  height: 0.8rem;
+  border-radius: 999px;
+  background: rgba(167, 184, 205, 0.14);
+  border: 1px solid rgba(167, 184, 205, 0.1);
+}
+
+.progress-bar__fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #2fcf8f, #8de7c2);
+  box-shadow: 0 0 18px rgba(47, 207, 143, 0.6);
+}
+
+.installment-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.installment-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 0.9rem 0.9rem 0.8rem;
+  background: rgba(96, 111, 140, 0.08);
+  border: 1px solid rgba(154, 176, 210, 0.14);
+  border-radius: 0.9rem;
+}
+
+.installment-item__top,
+.installment-item__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+
+.installment-item__number {
+  font-weight: 600;
+}
+
+.installment-item__meta {
+  color: var(--financial-text-soft);
+  font-size: 0.85rem;
+}
+
+.installment-item__payment-date {
+  color: var(--financial-text-soft);
+  font-size: 0.82rem;
+}
+
+.status-badge,
+.type-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.status-badge--paid {
+  background: rgba(37, 178, 107, 0.12);
+  color: #8ae0ae;
+}
+
+.status-badge--pending {
+  background: rgba(247, 169, 59, 0.12);
+  color: #ffcb75;
+}
+
+.status-badge--overdue {
+  background: rgba(231, 93, 85, 0.12);
+  color: #ff9d93;
+}
+
+.type-badge--tuition {
+  background: rgba(108, 170, 248, 0.12);
+  color: #a6d2ff;
+}
+
+.type-badge--payment {
+  background: rgba(37, 178, 107, 0.12);
+  color: #9fe8c0;
+}
+
+.type-badge--fee {
+  background: rgba(247, 169, 59, 0.12);
+  color: #ffce7a;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.9rem 0.7rem;
+  border-bottom: 1px solid rgba(173, 188, 210, 0.1);
+}
+
+th {
+  color: var(--financial-text-soft);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+tbody tr:hover {
+  background: rgba(147, 169, 202, 0.04);
+}
+
+.amount-cell {
+  font-weight: 600;
+}
+
+.amount-cell--payment {
+  color: #8ae0ae;
+}
+
+@media (max-width: 960px) {
+  .metrics-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .installment-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .financial-page {
+    padding-inline: 0.9rem;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .metrics-grid,
+  .installment-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .progress-summary,
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
