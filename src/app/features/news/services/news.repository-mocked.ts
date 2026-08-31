@@ -25,7 +25,7 @@ export class MockNewsRepository {
 
   addNews(input: CreateNewsInput): Observable<NewsArticle> {
     const article: NewsArticle = {
-      id: Math.max(0, ...FACULTY_MOCK_DATA.news.map((item) => item.id)) + 1,
+      id: Math.max(0, ...FACULTY_MOCK_DATA.news.map((item: { id: number }) => item.id)) + 1,
       ...input,
       publishedAt: new Date().toISOString(),
     };
@@ -35,7 +35,7 @@ export class MockNewsRepository {
   }
 
   updateNews(id: number, input: UpdateNewsInput): Observable<NewsArticle | null> {
-    const articleIndex = FACULTY_MOCK_DATA.news.findIndex((item) => item.id === id);
+    const articleIndex = FACULTY_MOCK_DATA.news.findIndex((item: { id: number }) => item.id === id);
     if (articleIndex === -1) {
       return of(null);
     }
@@ -50,7 +50,7 @@ export class MockNewsRepository {
   }
 
   deleteNews(id: number): Observable<boolean> {
-    const articleIndex = FACULTY_MOCK_DATA.news.findIndex((item) => item.id === id);
+    const articleIndex = FACULTY_MOCK_DATA.news.findIndex((item: { id: number }) => item.id === id);
     if (articleIndex === -1) {
       return of(false);
     }

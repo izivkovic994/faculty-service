@@ -1,18 +1,20 @@
+import { User } from '../core/auth/models/user.model';
+
 export type AcademicTerm = `${number}/${number}`;
 
 export type NewsCategory = 'GENERAL' | 'ACADEMIC' | 'EVENT' | 'IMPORTANT';
 export type ExamStatus = 'OPEN' | 'CLOSED' | 'COMPLETED';
 export type ExamRegistrationStatus = 'REGISTERED' | 'CANCELLED' | 'ATTENDED' | 'ABSENT';
-export type Grade = 1 | 2 | 3 | 4 | 5;
-export type FinancialTransactionType = 'TUITION' | 'PAYMENT' | 'REFUND' | 'FEE';
+export type Grade = 5 | 6 | 7 | 8 | 9 | 10;
+
+export type FinancialTransactionType = 'TUITION_CHARGE' | 'PAYMENT' | 'REFUND' | 'FEE';
 export type FinancialTransactionStatus = 'PENDING' | 'PAID' | 'OVERDUE' | 'CANCELLED';
+
 export type SupportTicketStatus = 'OPEN' | 'IN_PROGRESS' | 'RESOLVED' | 'CLOSED';
 export type SupportTicketPriority = 'LOW' | 'NORMAL' | 'HIGH';
+
 export type AdministrationRequestType =
-  | 'ENROLLMENT_CONFIRMATION'
-  | 'TRANSCRIPT'
-  | 'STUDENT_CARD'
-  | 'OTHER';
+  'ENROLLMENT_CONFIRMATION' | 'TRANSCRIPT' | 'STUDENT_CARD' | 'OTHER';
 export type AdministrationRequestStatus = 'SUBMITTED' | 'IN_REVIEW' | 'APPROVED' | 'REJECTED';
 
 export interface Department {
@@ -26,6 +28,9 @@ export interface StudyProgram {
   name: string;
   degree: 'BACHELOR' | 'MASTER' | 'DOCTORATE';
   departmentId: number;
+  ectsPerYear: number;
+  costPerEcts: number;
+  durationYears: number;
 }
 
 export interface Course {
@@ -33,7 +38,7 @@ export interface Course {
   code: string;
   name: string;
   ects: number;
-  semester: number;
+  semester: number; // 1 through 8
   departmentId: number;
   professorIds: number[];
 }
@@ -55,7 +60,6 @@ export interface Professor {
   title: 'ASSISTANT' | 'LECTURER' | 'PROFESSOR';
   departmentId: number;
   office: string;
-  courseIds: number[];
 }
 
 export interface NewsArticle {
@@ -93,12 +97,13 @@ export interface FinancialTransaction {
   id: number;
   studentId: number;
   description: string;
-  amount: number;
+  amount: number; // Positive value
   currency: 'EUR';
   type: FinancialTransactionType;
   status: FinancialTransactionStatus;
   dueDate: string;
   paidAt?: string;
+  installmentNumber?: number; // 1 to 12
 }
 
 export interface SupportTicket {
@@ -126,6 +131,7 @@ export interface AdministrationRequest {
 }
 
 export interface FacultyMockData {
+  users: User[];
   departments: Department[];
   studyPrograms: StudyProgram[];
   courses: Course[];
