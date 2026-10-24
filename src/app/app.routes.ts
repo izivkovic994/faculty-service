@@ -27,10 +27,33 @@ export const routes: Routes = [
         component: HomePageComponent,
       },
       {
+        path: 'exam-registration',
+        loadComponent: () =>
+          import('./features/exams/pages/exam-registration/exam-registration').then(
+            (m) => m.ExamRegistrationComponent,
+          ),
+      },
+      {
         path: 'financials',
         loadComponent: () =>
           import('./features/financials/pages/financial-overview/financial-overview').then(
             (m) => m.FinancialOverviewComponent,
+          ),
+      },
+      {
+        path: 'financials/transactions/new',
+        canActivate: [adminGuard],
+        loadComponent: () =>
+          import('./features/financials/pages/transaction-form/transaction-form').then(
+            (m) => m.FinancialTransactionFormComponent,
+          ),
+      },
+      {
+        path: 'financials/transactions/:id/edit',
+        canActivate: [adminGuard],
+        loadComponent: () =>
+          import('./features/financials/pages/transaction-form/transaction-form').then(
+            (m) => m.FinancialTransactionFormComponent,
           ),
       },
       {

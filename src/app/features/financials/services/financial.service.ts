@@ -1,5 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { tap } from 'rxjs';
 
 import { FACULTY_MOCK_DATA } from '../../../core/mocks/faculty.mock';
 import {
@@ -7,7 +8,7 @@ import {
   FinancialTransactionStatus,
   Student,
 } from '../../../models/faculty.model';
-import { MockFinancialRepository } from './financial.repository-mocked';
+import { FinancialTransactionInput, MockFinancialRepository } from './financial.repository-mocked';
 
 export interface FinancialBalanceSummary {
   totalBilled: number;
@@ -39,6 +40,63 @@ export class FinancialService {
 
   getStudentByUserId(userId: number): Student | null {
     return FACULTY_MOCK_DATA.students.find((student) => student.userId === userId) ?? null;
+  }
+
+  getTransactionById(id: number): FinancialTransaction | null {
+    const source = this.financialTransactions() ?? FACULTY_MOCK_DATA.financialTransactions;
+    return source.find((transaction) => transaction.id === id) ?? null;
+  }
+
+  createTransaction(input: FinancialTransactionInput) {
+    return this.financialRepository
+      .addTransaction(input)
+      .pipe(tap(() => this.financialResource.reload()));
+  }
+
+  updateTransaction(id: number, input: FinancialTransactionInput) {
+    return this.financialRepository
+      .updateTransaction(id, input)
+      .pipe(tap(() => this.financialResource.reload()));
+  }
+
+  deleteTransaction(id: number) {
+    console.log('Deleting transaction with ID:', id);
+    return this.financialRepository
+      .deleteTransaction(id)
+      .pipe(tap(() => this.financialResource.reload()));
+  }
+
+  payAllOutstanding(studentId: number): void {
+    const paidAt = new Date().toISOString();
+    this.getPaymentPlan(studentId)
+      .filter((item) => item.status !== 'PAID')
+      .forEach((item) => {
+        if (item.transaction) {
+          this.financialRepository
+            .updateTransaction(item.transaction.id, {
+              ...item.transaction,
+              status: 'PAID',
+              paidAt,
+            })
+            .subscribe();
+          return;
+        }
+
+        this.financialRepository
+          .addTransaction({
+            studentId,
+            description: `Tuition Installment ${item.installmentNumber}/12`,
+            amount: item.amount,
+            currency: 'EUR',
+            type: 'PAYMENT',
+            status: 'PAID',
+            dueDate: item.dueDate,
+            paidAt,
+            installmentNumber: item.installmentNumber,
+          })
+          .subscribe();
+      });
+    this.financialResource.reload();
   }
 
   getTransactions(studentId: number): FinancialTransaction[] {

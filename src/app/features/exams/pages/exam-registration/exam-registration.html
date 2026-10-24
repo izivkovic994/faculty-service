@@ -1,0 +1,102 @@
+<section class="exam-registration-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Student portal</p>
+      <h1>Exam registration</h1>
+      <p class="page-subtitle">Choose an available exam session for one of your enrolled courses.</p>
+    </div>
+    @if (student(); as currentStudent) {
+    <div class="student-pill">
+      <mat-icon>badge</mat-icon>
+      {{ currentStudent.studentNumber }}
+    </div>
+    }
+  </header>
+
+  @if (!student()) {
+  <section class="empty-state">
+    <mat-icon>school</mat-icon>
+    <h2>Student account required</h2>
+    <p>Sign in with a student account to register for exams.</p>
+  </section>
+  } @else {
+  <section class="section-block">
+    <div class="section-heading">
+      <div>
+        <h2>Available sessions</h2>
+        <p>Only open sessions for your enrolled courses are shown.</p>
+      </div>
+      <span class="section-count">{{ availableSessions().length }} available</span>
+    </div>
+
+    <div class="session-grid">
+      @for (session of availableSessions(); track session.id) {
+      <article
+        class="session-card"
+        [class.session-card--selected]="selectedSession()?.id === session.id"
+        (click)="selectSession(session)"
+        (keydown.enter)="selectSession(session)"
+        (keydown.space)="selectSession(session)"
+        tabindex="0"
+        role="button"
+        [attr.aria-pressed]="selectedSession()?.id === session.id"
+      >
+        <div class="session-card__topline">
+          <span class="term">{{ session.term }}</span>
+          <span class="status status--open">Open</span>
+        </div>
+        <h3>{{ courseName(session.courseId) }}</h3>
+        <dl>
+          <div><dt><mat-icon>event</mat-icon>Date</dt><dd>{{ formatDate(session.scheduledAt) }}</dd></div>
+          <div><dt><mat-icon>room</mat-icon>Room</dt><dd>{{ session.room }}</dd></div>
+          <div><dt><mat-icon>groups</mat-icon>Seats</dt><dd>{{ seatsRemaining(session) }} remaining</dd></div>
+        </dl>
+        @if (selectedSession()?.id === session.id) {
+        <div class="selected-label"><mat-icon>check_circle</mat-icon>Selected for registration</div>
+        }
+      </article>
+      } @empty {
+      <div class="empty-state empty-state--compact">
+        <mat-icon>event_busy</mat-icon>
+        <h3>No exam sessions available</h3>
+        <p>There are no open sessions for your enrolled courses right now.</p>
+      </div>
+      }
+    </div>
+  </section>
+
+  <section class="section-block registrations-block">
+    <div class="section-heading">
+      <div>
+        <h2>Your registrations</h2>
+        <p>Review your current and previous exam registrations.</p>
+      </div>
+      <span class="section-count">{{ registrations().length }} total</span>
+    </div>
+
+    <div class="registration-list">
+      @for (registration of registrations(); track registration.id) {
+      @if (registrationSession(registration); as session) {
+      <article class="registration-row">
+        <div class="registration-row__course">
+          <strong>{{ courseName(session.courseId) }}</strong>
+          <span>{{ session.term }} · {{ formatDate(session.scheduledAt) }} · Room {{ session.room }}</span>
+        </div>
+        <span class="status" [class.status--registered]="registration.status === 'REGISTERED'"
+          [class.status--cancelled]="registration.status === 'CANCELLED'">
+          {{ registration.status }}
+        </span>
+        @if (registration.status === 'REGISTERED') {
+        <button mat-stroked-button type="button" color="warn" (click)="cancelRegistration(registration)">
+          Cancel
+        </button>
+        }
+      </article>
+      }
+      } @empty {
+      <p class="empty-copy">You have not registered for any exam sessions yet.</p>
+      }
+    </div>
+  </section>
+  }
+</section>

@@ -1,0 +1,8 @@
+:host { display: block; }
+.transaction-form-page { max-width: 48rem; padding: 1rem 0.5rem 5rem; color: #edf3ff; }
+.eyebrow { text-transform: uppercase; letter-spacing: .12em; font-size: .72rem; color: #b8c4d7; }
+h1 { margin: 0; }
+header p:last-child { color: #b8c4d7; }
+form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: 2rem; }
+.form-actions { grid-column: 1 / -1; display: flex; justify-content: flex-end; gap: .75rem; }
+@media (max-width: 640px) { form { grid-template-columns: 1fr; } }

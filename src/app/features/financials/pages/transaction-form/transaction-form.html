@@ -1,0 +1,38 @@
+<section class="transaction-form-page">
+  <header>
+    <p class="eyebrow">Administration</p>
+    <h1>{{ isEditMode ? 'Edit transaction' : 'Add transaction' }}</h1>
+    <p>Update the student financial ledger with a database-shaped transaction record.</p>
+  </header>
+
+  <form [formGroup]="transactionForm">
+    <mat-form-field appearance="outline">
+      <mat-label>Description</mat-label>
+      <input matInput formControlName="description" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Amount (EUR)</mat-label>
+      <input matInput type="number" formControlName="amount" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Type</mat-label>
+      <mat-select formControlName="type">
+        @for (type of types; track type) { <mat-option [value]="type">{{ type }}</mat-option> }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="status">
+        @for (status of statuses; track status) { <mat-option [value]="status">{{ status }}</mat-option> }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Due date</mat-label>
+      <input matInput type="date" formControlName="dueDate" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Installment number (optional)</mat-label>
+      <input matInput type="number" min="1" max="12" formControlName="installmentNumber" />
+    </mat-form-field>
+  </form>
+</section>

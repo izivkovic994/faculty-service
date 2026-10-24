@@ -1,16 +1,59 @@
 <section class="financial-page">
   <header class="page-header">
     <div>
-      <p class="eyebrow">Student portal</p>
-      <h1>Financial overview</h1>
+      <p class="eyebrow">{{ isAdmin() ? 'Administration' : 'Student portal' }}</p>
+      <h1>{{ isAdmin() ? 'Student financials' : 'Financial overview' }}</h1>
+      <p class="page-subtitle">
+        {{ isAdmin() ? 'Manage student finances and tuition payments.' : 'Manage your finances and
+        keep track of your tuition payments.' }}
+      </p>
     </div>
 
+    @if (student()) {
     <div class="student-pill">
       <span class="student-pill__dot"></span>
-      Student #{{ student()?.studentNumber }}
+      {{ student()?.studentNumber }}
     </div>
+    }
   </header>
 
+  @if (isAdmin() && !student()) {
+  <section class="card student-search-card">
+    <div class="section-header">
+      <div>
+        <h2>Find a student</h2>
+      </div>
+    </div>
+    <mat-form-field appearance="outline" class="student-search-field">
+      <mat-label>Search students</mat-label>
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput [formControl]="searchControl" placeholder="e.g. John Doe or 2025/001" />
+    </mat-form-field>
+    <div class="student-results">
+      @for (item of filteredStudents(); track item.student.id) {
+      <button type="button" class="student-result" (click)="selectStudent(item.student.id)">
+        <span class="student-result__name">{{ item.user?.displayName }}</span>
+        <span>{{ item.student.studentNumber }} - {{ item.user?.email }}</span>
+      </button>
+      } @empty {
+      <p class="empty-state">
+        {{ searchQuery() ? 'No students match your search.' : 'Type a name, email, or student number
+        to find a student.' }}
+      </p>
+      }
+    </div>
+  </section>
+  } @if (student()) { @if (isAdmin()) {
+  <div class="selected-student-bar">
+    <span
+      >Viewing financials for
+      <strong>{{ student()?.studentNumber }} - {{ studentUser()?.displayName }}</strong></span
+    >
+    <button mat-stroked-button type="button" (click)="clearSelectedStudent()">
+      Change student
+    </button>
+  </div>
+  }
   <div class="metrics-grid">
     <article class="metric-card metric-card--balance" [ngClass]="balanceState()">
       <span class="metric-label">Current balance owed</span>
@@ -88,7 +131,19 @@
   <section class="card ledger-card">
     <div class="section-header">
       <h2>Transaction ledger</h2>
-      <span>{{ (transactions$ | async)?.length ?? 0 }} records</span>
+      <div class="ledger-actions">
+        <span>{{ (transactions$ | async)?.length ?? 0 }} records</span>
+        @if (isAdmin()) {
+        <button
+          mat-flat-button
+          color="primary"
+          [routerLink]="['/financials/transactions/new']"
+          [queryParams]="{ studentId: studentId() }"
+        >
+          <mat-icon>add</mat-icon> Add transaction
+        </button>
+        }
+      </div>
     </div>
 
     <div class="table-wrapper">
@@ -100,6 +155,9 @@
             <th>Description</th>
             <th>Type</th>
             <th>Amount</th>
+            @if (isAdmin()) {
+            <th class="actions-column">Actions</th>
+            }
           </tr>
         </thead>
         <tbody>
@@ -114,9 +172,32 @@
               {{ transaction.type === 'PAYMENT' ? '-' : '' }}{{ formatCurrency(transaction.amount)
               }}
             </td>
+            @if (isAdmin()) {
+            <td class="actions-column">
+              <button
+                mat-icon-button
+                [matMenuTriggerFor]="transactionMenu"
+                aria-label="Transaction actions"
+              >
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #transactionMenu="matMenu">
+                <button
+                  mat-menu-item
+                  [routerLink]="['/financials/transactions', transaction.id, 'edit']"
+                >
+                  <mat-icon>edit</mat-icon><span>Edit</span>
+                </button>
+                <button mat-menu-item (click)="confirmDelete(transaction)">
+                  <mat-icon>delete</mat-icon><span>Delete</span>
+                </button>
+              </mat-menu>
+            </td>
+            }
           </tr>
         </tbody>
       </table>
     </div>
   </section>
+  }
 </section>

@@ -1111,3 +1111,26 @@ export const FACULTY_MOCK_DATA: FacultyMockData = {
     },
   ],
 };
+
+const existingExamCourseIds = new Set(
+  FACULTY_MOCK_DATA.examSessions
+    .filter((session) => session.status === 'OPEN' && session.registeredCount < session.capacity)
+    .map((session) => session.courseId),
+);
+
+FACULTY_MOCK_DATA.courses
+  .filter((course) => !existingExamCourseIds.has(course.id))
+  .forEach((course, index) => {
+    const scheduledAt = new Date(Date.UTC(2026, 5, 16 + index, 10, 0, 0)).toISOString();
+
+    FACULTY_MOCK_DATA.examSessions.push({
+      id: Math.max(0, ...FACULTY_MOCK_DATA.examSessions.map((session) => session.id)) + 1,
+      courseId: course.id,
+      term: '2025/2026',
+      scheduledAt,
+      room: `B-${202 + (index % 8)}`,
+      capacity: 40,
+      registeredCount: 0,
+      status: 'OPEN',
+    });
+  });

@@ -1,4 +1,4 @@
-import { DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { AfterViewInit, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -21,6 +21,7 @@ import { NewsService } from '../../services/news.service';
 @Component({
   selector: 'app-news-page',
   imports: [
+    CommonModule,
     DatePipe,
     MatButtonModule,
     MatCardModule,
