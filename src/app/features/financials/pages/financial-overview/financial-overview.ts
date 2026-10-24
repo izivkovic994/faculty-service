@@ -22,7 +22,6 @@ export class FinancialOverviewComponent {
   private readonly financialService = inject(FinancialService);
   private readonly authService = inject(AuthService);
 
-  // 1. Resolve current user from AuthService (handles Signal or Property)
   readonly currentUser = computed(() => {
     const user =
       typeof this.authService.currentUser === 'function'
@@ -31,16 +30,13 @@ export class FinancialOverviewComponent {
     return user ?? null;
   });
 
-  // 2. Locate matching Student record using currentUser.id (userId)
   readonly student = computed(() => {
     const user = this.currentUser();
     return user ? this.financialService.getStudentByUserId(user.id) : null;
   });
 
-  // 3. Extract reactive studentId (defaults to 0 if not found)
   readonly studentId = computed(() => this.student()?.id ?? 0);
 
-  // 4. Derive financial data reactively based on studentId()
   readonly balance = computed(() => this.financialService.calculateBalance(this.studentId()));
   readonly paymentPlan = computed(() => this.financialService.getPaymentPlan(this.studentId()));
   readonly nextDue = computed(() => this.financialService.getNextDueInstallment(this.studentId()));

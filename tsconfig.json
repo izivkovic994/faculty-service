@@ -19,7 +19,9 @@
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
-    "strictInputAccessModifiers": true
+    "strictInputAccessModifiers": true,
+    "skipLibCheck": true,
+    "ignoreDeprecations": "6.0"
   },
   "files": [],
   "references": [

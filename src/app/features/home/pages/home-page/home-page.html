@@ -1,1 +1,49 @@
-<h1>Welcome back, {{ userDisplayName }}!</h1>
+<section class="home-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Faculty dashboard</p>
+      <h1>Welcome back, {{ userDisplayName() }}!</h1>
+    </div>
+  </header>
+
+  <div class="widget-grid">
+    <section class="widget news-widget">
+      <div class="widget-header">
+        <div>
+          <span class="widget-kicker">Highlights</span>
+          <h2>Important updates</h2>
+        </div>
+      </div>
+
+      @if (importantNews().length === 0) {
+      <div class="widget-empty">
+        <span>No important news right now.</span>
+      </div>
+      } @else {
+      <div class="news-list">
+        @for (article of importantNews(); track article.id) {
+        <button type="button" class="news-card" (click)="openNewsNotification(article)">
+          <span class="news-card__title">{{ article.title }}</span>
+          <span class="news-card__summary">{{ article.summary }}</span>
+        </button>
+        }
+      </div>
+      }
+    </section>
+
+    <aside class="widget financial-widget">
+      <div class="widget-header">
+        <div>
+          <span class="widget-kicker">Financials</span>
+          <h2>Current balance owed</h2>
+        </div>
+      </div>
+
+      <div class="balance-card">
+        <span class="metric-label">Current balance owed</span>
+        <strong class="metric-value">{{ formatCurrency(balance().currentOwed) }}</strong>
+        <span class="metric-meta">{{ getBalanceLabel(nextDue()) }}</span>
+      </div>
+    </aside>
+  </div>
+</section>

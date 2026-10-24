@@ -1,6 +1,7 @@
 import { User, UserRole } from '../models/user.model';
 
 export const AUTH_MOCK_USERS: User[] = [
+  // Admins (User IDs 1 - 2)
   {
     id: 1,
     firstName: 'Ivan',
