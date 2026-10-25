@@ -31,19 +31,35 @@
       }
     </section>
 
-    <aside class="widget financial-widget">
-      <div class="widget-header">
-        <div>
-          <span class="widget-kicker">Financials</span>
-          <h2>Current balance owed</h2>
+    <div class="widget-stack">
+      <aside class="widget financial-widget">
+        <div class="widget-header">
+          <div>
+            <span class="widget-kicker">Financials</span>
+            <h2>Current balance owed</h2>
+          </div>
         </div>
-      </div>
 
-      <div class="balance-card">
-        <span class="metric-label">Current balance owed</span>
-        <strong class="metric-value">{{ formatCurrency(balance().currentOwed) }}</strong>
-        <span class="metric-meta">{{ getBalanceLabel(nextDue()) }}</span>
-      </div>
-    </aside>
+        <div class="balance-card">
+          <span class="metric-label">Current balance owed</span>
+          <strong class="metric-value">{{ formatCurrency(balance().currentOwed) }}</strong>
+          <span class="metric-meta">{{ getBalanceLabel(nextDue()) }}</span>
+        </div>
+      </aside>
+
+      <section class="widget exam-widget">
+        <div class="widget-header">
+          <div>
+            <span class="widget-kicker">Exams</span>
+            <h2>Exam registration is open</h2>
+          </div>
+        </div>
+
+        <p class="exam-widget__message">Choose your exam sessions and register now.</p>
+        <a mat-flat-button color="primary" routerLink="/exam-registration">
+          View exam registration
+        </a>
+      </section>
+    </div>
   </div>
 </section>

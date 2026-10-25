@@ -9,7 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import {
   FinancialTransaction,
@@ -26,7 +26,6 @@ import {
   PageFooterAction,
   PageFooterService,
 } from '../../../../shared/ui/page-footer/page-footer.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-financial-overview',
@@ -49,12 +48,14 @@ export class FinancialOverviewComponent implements OnDestroy {
   private readonly financialService = inject(FinancialService);
   private readonly authService = inject(AuthService);
   private readonly dialog = inject(MatDialog);
+  private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly pageFooterService = inject(PageFooterService);
   protected readonly UserRole = UserRole;
   protected readonly searchControl = new FormControl('', { nonNullable: true });
   protected readonly searchQuery = signal('');
   protected readonly selectedStudentId = signal<number | null>(null);
+  protected readonly selectedInstallmentNumbers = signal<number[]>([]);
   private readonly refreshTrigger = signal(0);
 
   readonly currentUser = computed(() => {
@@ -148,6 +149,15 @@ export class FinancialOverviewComponent implements OnDestroy {
   }
 
   constructor() {
+    const requestedStudentId = Number(this.route.snapshot.queryParamMap.get('studentId'));
+    if (
+      this.isAdmin() &&
+      Number.isInteger(requestedStudentId) &&
+      FACULTY_MOCK_DATA.students.some((student) => student.id === requestedStudentId)
+    ) {
+      this.selectedStudentId.set(requestedStudentId);
+    }
+
     this.searchControl.valueChanges.subscribe((value) => {
       this.searchQuery.set(value.trim());
     });
@@ -172,14 +182,32 @@ export class FinancialOverviewComponent implements OnDestroy {
         onClick: () =>
           this.router.navigate(['/financials/transactions/new'], { queryParams: { studentId } }),
       });
-    } else if (!this.isAdmin() && studentId && this.balance().currentOwed > 0) {
-      actions.push({
-        label: 'Pay all outstanding',
-        icon: 'payments',
-        variant: 'flat',
-        color: 'primary',
-        onClick: () => this.payAll(),
-      });
+    } else if (!this.isAdmin() && studentId) {
+      if (this.selectedInstallmentNumbers().length) {
+        actions.push({
+          label: 'Pay selected installments',
+          icon: 'payments',
+          variant: 'flat',
+          color: 'primary',
+          onClick: () => this.confirmPaySelectedInstallments(),
+        });
+      }
+      if (this.balance().currentOwed > 0) {
+        actions.push({
+          label: 'Pay all outstanding',
+          icon: 'payments',
+          variant: 'flat',
+          color: 'primary',
+          onClick: () => this.payAll(),
+        });
+        actions.push({
+          label: 'Custom payment',
+          icon: 'add',
+          variant: 'stroked',
+          color: 'primary',
+          onClick: () => this.router.navigate(['/financials/transactions/new']),
+        });
+      }
     }
 
     this.pageFooterService.setActions(actions);
@@ -191,16 +219,77 @@ export class FinancialOverviewComponent implements OnDestroy {
 
   clearSelectedStudent(): void {
     this.selectedStudentId.set(null);
+    this.selectedInstallmentNumbers.set([]);
     this.searchControl.setValue('');
     this.searchQuery.set('');
   }
 
+  protected toggleInstallmentSelection(installmentNumber: number): void {
+    const installment = this.paymentPlan().find(
+      (item) => item.installmentNumber === installmentNumber,
+    );
+    if (!installment || installment.status === 'PAID') {
+      return;
+    }
+
+    this.selectedInstallmentNumbers.update((numbers) =>
+      numbers.includes(installmentNumber)
+        ? numbers.filter((number) => number !== installmentNumber)
+        : [...numbers, installmentNumber],
+    );
+  }
+
+  protected isInstallmentSelected(installmentNumber: number): boolean {
+    return this.selectedInstallmentNumbers().includes(installmentNumber);
+  }
+
   payAll(): void {
     const id = this.studentId();
-    if (id) {
-      this.financialService.payAllOutstanding(id);
-      this.refreshData();
-    }
+    if (!id) return;
+
+    this.confirmPayment(
+      'Pay all outstanding installments',
+      'Mark all outstanding installments as paid?',
+      () =>
+        this.financialService.payAllOutstanding(id).subscribe(() => {
+          this.selectedInstallmentNumbers.set([]);
+          this.refreshData();
+        }),
+    );
+  }
+
+  private confirmPaySelectedInstallments(): void {
+    const id = this.studentId();
+    const selected = this.selectedInstallmentNumbers();
+    if (!id || !selected.length) return;
+
+    this.confirmPayment(
+      'Pay selected installments',
+      `Mark ${selected.length} selected installment${selected.length === 1 ? '' : 's'} as paid?`,
+      () =>
+        this.financialService.paySelectedInstallments(id, selected).subscribe(() => {
+          this.selectedInstallmentNumbers.set([]);
+          this.refreshData();
+        }),
+    );
+  }
+
+  private confirmPayment(title: string, message: string, onConfirm: () => void): void {
+    this.dialog
+      .open(ConfirmDialogComponent, {
+        data: {
+          title,
+          message,
+          confirmText: 'Confirm payment',
+          cancelText: 'Cancel',
+        },
+      })
+      .afterClosed()
+      .subscribe((confirmed) => {
+        if (confirmed) {
+          onConfirm();
+        }
+      });
   }
 
   confirmDelete(transaction: FinancialTransaction): void {

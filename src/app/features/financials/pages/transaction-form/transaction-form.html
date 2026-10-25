@@ -1,8 +1,13 @@
 <section class="transaction-form-page">
   <header>
-    <p class="eyebrow">Administration</p>
-    <h1>{{ isEditMode ? 'Edit transaction' : 'Add transaction' }}</h1>
-    <p>Update the student financial ledger with a database-shaped transaction record.</p>
+    <p class="eyebrow">{{ isAdmin ? 'Administration' : 'Student portal' }}</p>
+    <h1>
+      {{ isEditMode ? 'Edit transaction' : isStudentMode ? 'Custom payment' : 'Add transaction' }}
+    </h1>
+    <p>
+      {{ isStudentMode ? 'Submit a custom payment for your financial ledger.' : 'Update the student
+      financial ledger with a transaction record.' }}
+    </p>
   </header>
 
   <form [formGroup]="transactionForm">
@@ -23,16 +28,24 @@
     <mat-form-field appearance="outline">
       <mat-label>Status</mat-label>
       <mat-select formControlName="status">
-        @for (status of statuses; track status) { <mat-option [value]="status">{{ status }}</mat-option> }
+        @for (status of statuses; track status) {
+        <mat-option [value]="status">{{ status }}</mat-option> }
       </mat-select>
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Due date</mat-label>
       <input matInput type="date" formControlName="dueDate" />
     </mat-form-field>
+    @if (isAdmin && transactionForm.controls.type.value === 'PAYMENT') {
     <mat-form-field appearance="outline">
-      <mat-label>Installment number (optional)</mat-label>
-      <input matInput type="number" min="1" max="12" formControlName="installmentNumber" />
+      <mat-label>Installment</mat-label>
+      <mat-select formControlName="installmentNumber">
+        <mat-option [value]="null">Custom amount (no installment)</mat-option>
+        @for (installmentNumber of installmentNumbers; track installmentNumber) {
+        <mat-option [value]="installmentNumber">Installment {{ installmentNumber }}</mat-option>
+        }
+      </mat-select>
     </mat-form-field>
+    }
   </form>
 </section>

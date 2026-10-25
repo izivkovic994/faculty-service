@@ -42,7 +42,6 @@ export const routes: Routes = [
       },
       {
         path: 'financials/transactions/new',
-        canActivate: [adminGuard],
         loadComponent: () =>
           import('./features/financials/pages/transaction-form/transaction-form').then(
             (m) => m.FinancialTransactionFormComponent,

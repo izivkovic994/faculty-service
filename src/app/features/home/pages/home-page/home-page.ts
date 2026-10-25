@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { Router, RouterLink } from '@angular/router';
 
 import { APP_NAME } from '../../../../core/constants/app.constants';
 import { AuthService } from '../../../../core/auth/services/auth.service';
@@ -10,7 +11,7 @@ import { FinancialTransaction, NewsArticle } from '../../../../models/faculty.mo
 
 @Component({
   selector: 'app-home-page',
-  imports: [CommonModule],
+  imports: [CommonModule, MatButtonModule, RouterLink],
   templateUrl: './home-page.html',
   styleUrl: './home-page.scss',
 })

@@ -37,8 +37,8 @@
       </button>
       } @empty {
       <p class="empty-state">
-        {{ searchQuery() ? 'No students match your search.' : 'Type a name, email, or student number
-        to find a student.' }}
+        {{ searchQuery() ? 'No students match your search.' : 'Type a name, email, or student
+        numberto find a student.' }}
       </p>
       }
     </div>
@@ -103,12 +103,28 @@
 
   <section class="card installment-card">
     <div class="section-header">
-      <h2>12-month installment tracker</h2>
+      <div>
+        <h2>12-month installment tracker</h2>
+        <p class="page-subtitle">Select one or more installemnts to pay.</p>
+      </div>
       <span>{{ installmentsPaid() }}/12</span>
     </div>
 
     <div class="installment-grid">
-      <article class="installment-item" *ngFor="let installment of paymentPlan()">
+      <article
+        class="installment-item"
+        *ngFor="let installment of paymentPlan()"
+        [class.installment-item--selectable]="!isAdmin() && installment.status !== 'PAID'"
+        [class.installment-item--selected]="isInstallmentSelected(installment.installmentNumber)"
+        [class.installment-item--disabled]="installment.status === 'PAID'"
+        (click)="!isAdmin() && toggleInstallmentSelection(installment.installmentNumber)"
+        (keydown.enter)="!isAdmin() && toggleInstallmentSelection(installment.installmentNumber)"
+        (keydown.space)="!isAdmin() && toggleInstallmentSelection(installment.installmentNumber); $event.preventDefault()"
+        [attr.role]="isAdmin() ? null : 'checkbox'"
+        [attr.aria-checked]="isAdmin() ? null : isInstallmentSelected(installment.installmentNumber)"
+        [attr.aria-disabled]="isAdmin() ? null : installment.status === 'PAID'"
+        [attr.tabindex]="!isAdmin() && installment.status !== 'PAID' ? 0 : null"
+      >
         <div class="installment-item__top">
           <span class="installment-item__number"
             >Installment {{ installment.installmentNumber }}</span
@@ -154,6 +170,7 @@
             <th>Date</th>
             <th>Description</th>
             <th>Type</th>
+            <th>Installment</th>
             <th>Amount</th>
             @if (isAdmin()) {
             <th class="actions-column">Actions</th>
@@ -167,6 +184,10 @@
             <td>{{ transaction.description }}</td>
             <td>
               <span [ngClass]="getTypeClass(transaction.type)">{{ transaction.type }}</span>
+            </td>
+            <td>
+              {{ transaction.installmentNumber ? 'Installment ' + transaction.installmentNumber :
+              '—' }}
             </td>
             <td class="amount-cell" [class.amount-cell--payment]="transaction.type === 'PAYMENT'">
               {{ transaction.type === 'PAYMENT' ? '-' : '' }}{{ formatCurrency(transaction.amount)

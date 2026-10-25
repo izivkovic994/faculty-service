@@ -14,7 +14,6 @@
   --financial-danger: #e75d55;
   --financial-info: #6caaf8;
   --financial-muted: #94a6bb;
-  --financial-shadow: 0 18px 48px rgba(7, 12, 20, 0.34);
 
   display: flex;
   flex-direction: column;
@@ -162,7 +161,6 @@ h1 {
   background: linear-gradient(180deg, rgba(25, 31, 39, 0.92), rgba(13, 18, 24, 0.96));
   border: 1px solid var(--financial-border);
   border-radius: 1.15rem;
-  box-shadow: var(--financial-shadow);
 }
 
 .metric-card {
@@ -277,6 +275,22 @@ h1 {
   background: rgba(96, 111, 140, 0.08);
   border: 1px solid rgba(154, 176, 210, 0.14);
   border-radius: 0.9rem;
+  transition: border-color 150ms ease, transform 150ms ease;
+}
+
+.installment-item--selectable {
+  cursor: pointer;
+}
+
+.installment-item--selectable:hover,
+.installment-item--selectable:focus-visible,
+.installment-item--selected {
+  border-color: #8db8f2;
+  outline: none;
+}
+
+.installment-item--selectable:hover {
+  transform: translateY(-2px);
 }
 
 .installment-item__top,
@@ -351,7 +365,7 @@ h1 {
 table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 700px;
+  min-width: 780px;
 }
 
 th,

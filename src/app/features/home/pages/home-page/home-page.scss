@@ -40,11 +40,16 @@
   align-items: start;
 }
 
+.widget-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
 .widget {
   background: rgba(17, 23, 34, 0.82);
   border: 1px solid rgba(148, 163, 184, 0.18);
   border-radius: 20px;
-  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.2);
   padding: 1.25rem;
 }
 
@@ -133,6 +138,12 @@
 .metric-meta {
   font-size: 0.85rem;
   color: #dce7ff;
+}
+
+.exam-widget__message {
+  margin: 0 0 1rem;
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 0.9rem;
 }
 
 @media (max-width: 900px) {

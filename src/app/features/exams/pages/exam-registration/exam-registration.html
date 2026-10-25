@@ -3,7 +3,9 @@
     <div>
       <p class="eyebrow">Student portal</p>
       <h1>Exam registration</h1>
-      <p class="page-subtitle">Choose an available exam session for one of your enrolled courses.</p>
+      <p class="page-subtitle">
+        Choose an available exam session for one of your enrolled courses.
+      </p>
     </div>
     @if (student(); as currentStudent) {
     <div class="student-pill">
@@ -22,10 +24,7 @@
   } @else {
   <section class="section-block">
     <div class="section-heading">
-      <div>
-        <h2>Available sessions</h2>
-        <p>Only open sessions for your enrolled courses are shown.</p>
-      </div>
+      <h2>Available sessions</h2>
       <span class="section-count">{{ availableSessions().length }} available</span>
     </div>
 
@@ -47,9 +46,18 @@
         </div>
         <h3>{{ courseName(session.courseId) }}</h3>
         <dl>
-          <div><dt><mat-icon>event</mat-icon>Date</dt><dd>{{ formatDate(session.scheduledAt) }}</dd></div>
-          <div><dt><mat-icon>room</mat-icon>Room</dt><dd>{{ session.room }}</dd></div>
-          <div><dt><mat-icon>groups</mat-icon>Seats</dt><dd>{{ seatsRemaining(session) }} remaining</dd></div>
+          <div>
+            <dt><mat-icon>event</mat-icon>Date</dt>
+            <dd>{{ formatDate(session.scheduledAt) }}</dd>
+          </div>
+          <div>
+            <dt><mat-icon>room</mat-icon>Room</dt>
+            <dd>{{ session.room }}</dd>
+          </div>
+          <div>
+            <dt><mat-icon>groups</mat-icon>Seats</dt>
+            <dd>{{ seatsRemaining(session) }} remaining</dd>
+          </div>
         </dl>
         @if (selectedSession()?.id === session.id) {
         <div class="selected-label"><mat-icon>check_circle</mat-icon>Selected for registration</div>
@@ -75,25 +83,35 @@
     </div>
 
     <div class="registration-list">
-      @for (registration of registrations(); track registration.id) {
-      @if (registrationSession(registration); as session) {
+      @for (registration of registrations(); track registration.id) { @if
+      (registrationSession(registration); as session) {
       <article class="registration-row">
         <div class="registration-row__course">
           <strong>{{ courseName(session.courseId) }}</strong>
-          <span>{{ session.term }} · {{ formatDate(session.scheduledAt) }} · Room {{ session.room }}</span>
+          <span
+            >{{ session.term }} · {{ formatDate(session.scheduledAt) }} · Room {{ session.room
+            }}</span
+          >
         </div>
-        <span class="status" [class.status--registered]="registration.status === 'REGISTERED'"
-          [class.status--cancelled]="registration.status === 'CANCELLED'">
+        <span
+          class="status"
+          [class.status--registered]="registration.status === 'REGISTERED'"
+          [class.status--cancelled]="registration.status === 'CANCELLED'"
+        >
           {{ registration.status }}
         </span>
         @if (registration.status === 'REGISTERED') {
-        <button mat-stroked-button type="button" color="warn" (click)="cancelRegistration(registration)">
+        <button
+          mat-stroked-button
+          type="button"
+          color="warn"
+          (click)="cancelRegistration(registration)"
+        >
           Cancel
         </button>
         }
       </article>
-      }
-      } @empty {
+      } } @empty {
       <p class="empty-copy">You have not registered for any exam sessions yet.</p>
       }
     </div>
