@@ -1,16 +1,16 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 import { AUTH_MOCK_USERS, DEMO_PASSWORD } from '../mocks/auth.mock';
-import { User } from '../models/user.model';
-import { MockAuthRepository } from './auth.repository-mocked';
+import { AuthRepository } from './auth.repository';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private readonly router = inject(Router);
-  private readonly authRepository = inject(MockAuthRepository);
+  private readonly authRepository = inject(AuthRepository);
 
   readonly currentUser = this.authRepository.currentUser.asReadonly();
   readonly isAuthenticated = computed(() => this.currentUser() !== null);
@@ -21,19 +21,20 @@ export class AuthService {
   login(email: string, password: string): void {
     this.isLoading.set(true);
     this.errorMessage.set(null);
-
-    const authenticatedUser = this.authRepository.login(email, password);
-    if (!authenticatedUser) {
-      this.isLoading.set(false);
-      this.errorMessage.set(
-        `Invalid credentials. Use some of the demo accounts below or the shared password: ${DEMO_PASSWORD}`,
-      );
-      return;
-    }
-    setTimeout(() => {
-      this.isLoading.set(false);
-      this.router.navigate(['/home']);
-    }, 2000);
+    this.authRepository.login(email, password).subscribe({
+      next: () => {
+        this.isLoading.set(false);
+        this.router.navigate(['/home']);
+      },
+      error: (error: HttpErrorResponse) => {
+        this.isLoading.set(false);
+        this.errorMessage.set(
+          error.status === 401
+            ? `Invalid credentials. Use one of the demo accounts and the shared password: ${DEMO_PASSWORD}`
+            : 'Could not connect to the authentication service. Please try again.',
+        );
+      },
+    });
   }
 
   logout(): void {

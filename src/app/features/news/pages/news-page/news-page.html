@@ -5,8 +5,17 @@
     </div>
   </header>
 
+  @if (deleteError) {
+  <p class="news-status news-status--error" role="alert">Could not delete the article. Check the backend connection and your authorization.</p>
+  }
+
   <div class="news-grid">
-    @for (article of news(); track article.id) {
+    @if (newsLoading()) {
+    <p class="news-status" role="status">Loading news...</p>
+    } @else if (newsError()) {
+    <p class="news-status news-status--error" role="alert">News could not be loaded. Please try again later.</p>
+    } @else {
+    @for (article of news() ?? []; track article.id) {
     <mat-card
       [id]="'news-card-' + article.id"
       class="news-card"
@@ -92,6 +101,7 @@
       <mat-icon>feed</mat-icon>
       <p>No news has been published yet.</p>
     </div>
+    }
     }
   </div>
 </section>

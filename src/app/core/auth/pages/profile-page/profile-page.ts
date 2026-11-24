@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { MockAuthRepository } from '../../services/auth.repository-mocked';
+import { AuthRepository } from '../../services/auth.repository';
 import { ConfirmDialogComponent } from '../../../../shared/ui/confirm-dialog/confirm-dialog';
 import {
   PageFooterAction,
@@ -31,7 +31,7 @@ import { DEMO_PASSWORD } from '../../mocks/auth.mock';
   styleUrl: './profile-page.scss',
 })
 export class ProfilePageComponent implements OnInit, OnDestroy {
-  private readonly authRepo = inject(MockAuthRepository);
+  private readonly authRepo = inject(AuthRepository);
   private readonly dialog = inject(MatDialog);
   private readonly snackBar = inject(MatSnackBar);
   private readonly pageFooterService = inject(PageFooterService);

@@ -41,6 +41,9 @@ export class NewsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly route = inject(ActivatedRoute);
 
   protected readonly news = this.newsService.news;
+  protected readonly newsLoading = this.newsService.isLoading;
+  protected readonly newsError = this.newsService.error;
+  protected deleteError = false;
   protected expandedNewsIds = new Set<number>();
 
   ngOnInit(): void {
@@ -130,8 +133,14 @@ export class NewsPageComponent implements OnInit, AfterViewInit, OnDestroy {
         return;
       }
 
-      this.newsService.deleteNews(article.id).subscribe(() => {
-        this.expandedNewsIds.delete(article.id);
+      this.newsService.deleteNews(article.id).subscribe({
+        next: () => {
+          this.deleteError = false;
+          this.expandedNewsIds.delete(article.id);
+        },
+        error: () => {
+          this.deleteError = true;
+        },
       });
     });
   }

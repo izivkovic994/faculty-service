@@ -10,7 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 
 import { AuthService } from '../../../../core/auth/services/auth.service';
 import { NewsService } from '../../services/news.service';
-import { NewsCategory } from '../../../../models/faculty.model';
+import { NewsArticle, NewsCategory } from '../../../../models/faculty.model';
 import { PageFooterAction, PageFooterService } from '../../../../shared/ui/page-footer/page-footer.service';
 
 @Component({
@@ -43,6 +43,8 @@ export class CreateNewsPageComponent implements OnInit, OnDestroy {
   });
 
   protected isEditMode = false;
+  protected loadError = false;
+  protected saveError = false;
   private editNewsId: number | null = null;
 
   ngOnInit(): void {
@@ -52,18 +54,19 @@ export class CreateNewsPageComponent implements OnInit, OnDestroy {
 
     if (this.isEditMode) {
       const existingNews = this.newsService.getArticleById(this.editNewsId!);
-      if (!existingNews) {
-        this.router.navigate(['/news']);
-        return;
+      if (existingNews) {
+        this.patchNews(existingNews);
+      } else {
+        this.newsService.getNewsArticle(this.editNewsId!).subscribe({
+          next: (article) => {
+            this.patchNews(article);
+            this.updateFooterActions();
+          },
+          error: () => {
+            this.loadError = true;
+          },
+        });
       }
-
-      this.newsForm.patchValue({
-        title: existingNews.title,
-        summary: existingNews.summary,
-        content: existingNews.content,
-        category: existingNews.category,
-        isPinned: existingNews.isPinned,
-      });
     }
 
     this.updateFooterActions();
@@ -103,6 +106,7 @@ export class CreateNewsPageComponent implements OnInit, OnDestroy {
   }
 
   saveNews(): void {
+    this.saveError = false;
     if (this.newsForm.invalid) {
       this.newsForm.markAllAsTouched();
       return;
@@ -122,10 +126,25 @@ export class CreateNewsPageComponent implements OnInit, OnDestroy {
       ? this.newsService.updateNews(this.editNewsId, payload)
       : this.newsService.createNews(payload);
 
-    request$.subscribe(() => this.router.navigate(['/news']));
+    request$.subscribe({
+      next: () => this.router.navigate(['/news']),
+      error: () => {
+        this.saveError = true;
+      },
+    });
   }
 
   cancel(): void {
     this.router.navigate(['/news']);
+  }
+
+  private patchNews(article: NewsArticle): void {
+    this.newsForm.patchValue({
+      title: article.title,
+      summary: article.summary,
+      content: article.content,
+      category: article.category,
+      isPinned: article.isPinned,
+    });
   }
 }
